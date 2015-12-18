@@ -1,11 +1,9 @@
 import Koa from 'koa';
-import serve from './static/index';
+import serve from './koa-static/index';
 
 const app = new Koa();
 
-import handleRobots from './handle-robots';
-
-app.use(serve('test'));
+app.use(serve('../client/jspm-src'));
 // logger
 app.use(async (ctx, next) => {
     const start = new Date;
@@ -14,7 +12,6 @@ app.use(async (ctx, next) => {
     console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
 });
 
-handleRobots(app);
 
 // response
 app.use(ctx => {

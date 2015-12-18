@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <base href="/">
+
+    <style>
+        [ng-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+<body ng-cloak ng-app="cutlog">
+<div  ng-init="count = 2">
+{{count}}
+    <counter count="count"></counter>
+</div>
+
+<script src="jspm_packages/system.js"></script>
+<script src="config.js"></script>
+<script>
+    System.import('index');
+</script>
+
+</body>
+</html>

@@ -1,6 +1,6 @@
 {
   "private": "true",
-  "version": "0.0.0",
+  "license": "AGPL",
   "author": "Amit Portnoy <amit.portnoy@gmail.com> (https://github.com/amitport)",
   "dependencies": {
     "babel-polyfill": "^6.3.14",

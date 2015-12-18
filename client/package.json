@@ -1,0 +1,34 @@
+{
+  "name": "isradoc-client",
+  "private": true,
+  "license": "AGPL",
+  "author": "Amit Portnoy <amit.portnoy@gmail.com> (https://github.com/amitport)",
+  "scripts": {
+    "sfx": "jspm bundle-sfx index jspm-sfx/main.min.js --minify --skip-source-maps"
+  },
+  "devDependencies": {
+    "jspm": "^0.16.19"
+  },
+  "jspm": {
+    "directories": {
+      "baseURL": "jspm-src"
+    },
+    "dependencies": {
+      "angular": "github:angular/bower-angular@1.5.0-rc.0",
+      "angular-file-upload": "github:danialfarid/ng-file-upload-bower@^10.1.9",
+      "angular-material": "github:angular/bower-material@1.0.1",
+      "angular-route": "github:angular/bower-angular-route@1.5.0-rc.0",
+      "css": "github:systemjs/plugin-css@^0.1.20",
+      "material-design-icons": "github:google/material-design-icons@^2.1.1",
+      "moment": "npm:moment@^2.10.6",
+      "ngImgCrop": "github:alexk111/ngImgCrop@^0.3.2",
+      "satellizer": "github:sahat/satellizer@^0.13.2"
+    },
+    "devDependencies": {
+      "babel": "npm:babel-core@^5.8.34",
+      "babel-runtime": "npm:babel-runtime@^5.8.34",
+      "clean-css": "npm:clean-css@^3.4.8",
+      "core-js": "npm:core-js@^1.2.6"
+    }
+  }
+}
