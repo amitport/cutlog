@@ -1,0 +1,11 @@
+/* override angular material font with hebrew support*/
+html[lang="he"],
+html[lang="he"] button,
+html[lang="he"] select,
+html[lang="he"] textarea,
+html[lang="he"] input,
+html[lang="he"] pre,
+html[lang="he"] md-bottom-sheet .md-subheader,
+html[lang="he"] .md-chips {
+    font-family: 'Noto Sans Hebrew', Roboto, 'Helvetica Neue', sans-serif;
+}

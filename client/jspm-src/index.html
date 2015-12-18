@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <base href="/">
 
+    <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,400italic'>
+    <link rel='stylesheet' href='http://fonts.googleapis.com/earlyaccess/notosanshebrew.css'>
     <style>
         [ng-cloak] {
             display: none !important;
@@ -11,9 +13,9 @@
     </style>
 </head>
 <body ng-cloak ng-app="cutlog">
-<div  ng-init="count = 2">
-{{count}}
-    <counter count="count"></counter>
+<div layout="row" layout-align="end center" layout-padding>
+    <cl-log-switch></cl-log-switch>
+    <lang-switch></lang-switch>
 </div>
 
 <script src="jspm_packages/system.js"></script>
