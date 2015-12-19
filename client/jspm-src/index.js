@@ -35,20 +35,40 @@ module.component('clLogSwitch', {
                 {
                     targetEvent: targetEvent,
                     templateUrl: 'partials/authProviderDialog.html',
-                    controller: ['$scope', '$mdDialog', '$mdToast', ($scope, $mdDialog, $mdToast) => {
+                    controller: ['$scope', '$mdDialog', '$mdToast', '$http', '$window',
+                            ($scope, $mdDialog, $mdToast, $http, $window) => {
                         $scope.closeDialog = () => {$mdDialog.cancel();};
 
                         $scope.ctrl = {
-                            authenticate: () => this.authenticate()
-                                .then(() => {$mdDialog.hide();})
-                                .catch(() => {$mdDialog.cancel(); return Promise.reject()}),
-                            passwordLessAuth: () => {
-                                if (!$scope.passwordLessForm.$invalid) {
+                            //authenticate: () => this.authenticate()
+                            //    .then(() => {$mdDialog.hide();})
+                            //    .catch(() => {$mdDialog.cancel(); return Promise.reject()}),
+                            passwordlessAuth: () => {
+                                if (!$scope.passwordlessForm.$invalid) {
+                                    let email = $scope.ctrl.email;
+                                    let path = '/';
                                     $mdDialog.hide().then(() => {
-                                        $mdToast.showSimple('test');
+                                        $http.post('/api/auth/passwordless/request', {email, path})
+                                        .then(() => {
+                                            $mdToast.show({
+                                                autoWrap: false,
+                                                template:`
+                                                    <md-toast>
+                                                        <div class="md-toast-content">
+                                                            <span flex role="alert" aria-relevant="all" aria-atomic="true">
+                                                                {{'PASSWORDLESS_REQUEST_ACCEPTED' | translate}}
+                                                            </span>
+                                                        </div>
+                                                    </md-toast>
+                                                `,
+                                                position:
+                                                    ($window.document.dir == 'ltr') ? 'bottom left' : 'bottom right',
+                                                hideDelay: 5000
+                                            });
+                                        });
                                     });
                                 } else {
-                                    $scope.passwordLessForm.email.$setTouched();
+                                    $scope.passwordlessForm.email.$setTouched();
                                 }
 
                             }

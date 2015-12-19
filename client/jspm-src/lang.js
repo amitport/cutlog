@@ -14,7 +14,8 @@ module.config(function ($translateProvider) {
             FACEBOOK: 'Facebook',
             NOT_SUPPORTED: 'not supported',
             REQUIRED_FIELD: 'required field',
-            INVALID_EMAIL_FIELD: "invalid email format"
+            INVALID_EMAIL_FIELD: 'invalid email format',
+            PASSWORDLESS_REQUEST_ACCEPTED: 'Request accepted! Log-in details should arrive at your email shortly'
         })
         .translations('he', {
             SIGN_IN: 'כניסה',
@@ -27,7 +28,8 @@ module.config(function ($translateProvider) {
             FACEBOOK: 'פייסבוק',
             NOT_SUPPORTED: 'לא נתמך',
             REQUIRED_FIELD: 'שדה נדרש',
-            INVALID_EMAIL_FIELD: "הכתובת אינה תקינה"
+            INVALID_EMAIL_FIELD: 'הכתובת אינה תקינה',
+            PASSWORDLESS_REQUEST_ACCEPTED: 'בקשתך התקבלה! פרטי כניסה יגיעו לתיבת הדואר בדקות הקרובות'
         })
         .registerAvailableLanguageKeys(['en', 'he'])
         .determinePreferredLanguage()

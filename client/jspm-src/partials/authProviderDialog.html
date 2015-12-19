@@ -14,21 +14,21 @@
         <div class="md-dialog-content-body" layout="column">
             <md-whiteframe class="md-whiteframe-2dp" style="margin: 8px; border-radius: 3px;">
 
-                <form name="passwordLessForm" layout="row" layout-align="start center" layout-padding>
+                <form name="passwordlessForm" layout="row" layout-align="start center" layout-padding>
                     <div layout="column"><span style="font-size:14px">{{'AUTHENTICATE_REQUEST_PREFIX' | translate}}
         {{'EMAIL_LONG' | translate}}
                 </span>
                         <md-input-container md-no-float class="md-block">
                             <md-icon>email</md-icon>
-                            <input name="email" style="min-width: 230px;" ng-model="user.title" type="email" required
+                            <input name="email" style="min-width: 230px;" ng-model="ctrl.email" type="email" required
                                    placeholder="{{'EMAIL' | translate}}">
-                            <div ng-messages="passwordLessForm.email.$error">
+                            <div ng-messages="passwordlessForm.email.$error">
                                 <div ng-message="required">{{'REQUIRED_FIELD' | translate}}</div>
                                 <div ng-message="email">{{'INVALID_EMAIL_FIELD' | translate}}</div>
                             </div>
                         </md-input-container>
                     </div>
-                    <md-button style="font-weight: normal" ng-click="ctrl.passwordLessAuth()">{{'CONTINUE' |
+                    <md-button style="font-weight: normal" ng-click="ctrl.passwordlessAuth()">{{'CONTINUE' |
                         translate}}
                     </md-button>
                 </form>
