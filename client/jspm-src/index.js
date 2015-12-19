@@ -1,6 +1,14 @@
 import {module} from './module';
 import './lang';
+import './passwordless';
 
+module.config(($routeProvider, $locationProvider) => {
+    $locationProvider.html5Mode(true).hashPrefix('!');
+
+    $routeProvider.when('/', {
+        template: 'main'
+    });
+});
 module.component('clLogSwitch', {
     template: `
       <md-button ng-if="clLogSwitch.shouldDisplayLabel" ng-click="clLogSwitch.signIn($event)">
@@ -34,6 +42,7 @@ module.component('clLogSwitch', {
             return this.$mdDialog.show(
                 {
                     targetEvent: targetEvent,
+                    clickOutsideToClose: true,
                     templateUrl: 'partials/authProviderDialog.html',
                     controller: ['$scope', '$mdDialog', '$mdToast', '$http', '$window',
                             ($scope, $mdDialog, $mdToast, $http, $window) => {

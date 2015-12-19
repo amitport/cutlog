@@ -1,0 +1,17 @@
+
+html[dir="rtl"] .md-toolbar-tools > .md-button:last-child {
+    margin-right: 6px;
+    margin-left: -8px;
+}
+
+html[dir="rtl"] md-dialog .md-actions,
+html[dir="rtl"] md-dialog md-dialog-actions {
+    padding-right: 16px;
+    padding-left: 8px;
+}
+
+html[dir="rtl"] md-dialog .md-actions .md-button,
+html[dir="rtl"] md-dialog md-dialog-actions .md-button {
+    margin-right: 8px;
+    margin-left: 0;
+}

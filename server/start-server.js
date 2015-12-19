@@ -6,10 +6,19 @@ const app = new Koa();
 app.use(serve('../client/jspm-src'));
 
 import Router from 'koa-router';
+import send from 'koa-send';
+import path from 'path';
+
+const angularIdx = Router();
+angularIdx.get(/\/passwordless\/[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/, async (ctx) => {
+    await send(ctx, 'index.html', {root: path.resolve('../client/jspm-src')});
+});
+app.use(angularIdx.routes());
+
 import BodyParser from 'koa-bodyparser';
 const bodyParser = BodyParser();
 const passwordless = Router();
-import {encodePasswordlessRequest, decodePasswordlessRequest} from './token';
+import {encodePasswordlessRequest, decodePasswordlessRequest, encodeUser} from './token';
 import validator from 'validator';
 
 passwordless.post('/api/auth/passwordless/request', bodyParser, (ctx) => {
@@ -27,21 +36,26 @@ passwordless.post('/api/auth/passwordless/request', bodyParser, (ctx) => {
 
     ctx.status = 202; //(Accepted)
 });
-passwordless.get('/api/auth/passwordless/accept', (ctx) => {
+passwordless.post('/api/auth/passwordless/accept', bodyParser, (ctx) => {
     let decoded;
     try {
-        decoded = decodePasswordlessRequest(ctx.query.token);
+        decoded = decodePasswordlessRequest(ctx.request.body.token);
     } catch (e) {
         console.error(e);
         ctx.throw(401);
     }
 
-    // TODO redirect to path instead of
-    ctx.body = decoded;
-    // should do:
+    // TODO:
     // find user with that validated email
     //    if not found - create a new user with defaults and set isNewUser=true (used to open registration dialog on client)
-    // ctx.body = {token: encodeUser({userId, role}), isNewUser, requestedPath: path}
+    ctx.body = {
+        token: encodeUser({_id: 'xxx', role: 'user'}),
+        requestedPath: decoded.path,
+        user: {
+          email: decoded.email,
+          isNew: true
+        }
+    };
 
 });
 app.use(passwordless.routes());

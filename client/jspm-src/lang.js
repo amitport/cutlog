@@ -15,7 +15,11 @@ module.config(function ($translateProvider) {
             NOT_SUPPORTED: 'not supported',
             REQUIRED_FIELD: 'required field',
             INVALID_EMAIL_FIELD: 'invalid email format',
-            PASSWORDLESS_REQUEST_ACCEPTED: 'Request accepted! Log-in details should arrive at your email shortly'
+            PASSWORDLESS_REQUEST_ACCEPTED: 'Request accepted! Log-in details should arrive at your email shortly',
+            USER_ACCOUNT: 'User Account',
+            CANCEL: 'cancel',
+            SAVE: 'save',
+            NEW_USER_ACCOUNT: 'New User Account'
         })
         .translations('he', {
             SIGN_IN: 'כניסה',
@@ -29,7 +33,11 @@ module.config(function ($translateProvider) {
             NOT_SUPPORTED: 'לא נתמך',
             REQUIRED_FIELD: 'שדה נדרש',
             INVALID_EMAIL_FIELD: 'הכתובת אינה תקינה',
-            PASSWORDLESS_REQUEST_ACCEPTED: 'בקשתך התקבלה! פרטי כניסה יגיעו לתיבת הדואר בדקות הקרובות'
+            PASSWORDLESS_REQUEST_ACCEPTED: 'בקשתך התקבלה! פרטי כניסה יגיעו לתיבת הדואר בדקות הקרובות',
+            USER_ACCOUNT: 'חשבון משתמש',
+            CANCEL: 'בטל',
+            SAVE: 'שמור',
+            NEW_USER_ACCOUNT: 'חשבון משתמש חדש'
         })
         .registerAvailableLanguageKeys(['en', 'he'])
         .determinePreferredLanguage()
