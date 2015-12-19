@@ -8,11 +8,13 @@ module.config(function ($translateProvider) {
             LANGUAGE: 'Language',
             EMAIL: 'Email',
             EMAIL_LONG: 'Email address',
-            CONTINUE: 'Continue',
+            CONTINUE: 'Next',
             AUTHENTICATE_REQUEST_PREFIX: 'Sign in using',
             GOOGLE: 'Google',
             FACEBOOK: 'Facebook',
-            NOT_SUPPORTED: 'not supported'
+            NOT_SUPPORTED: 'not supported',
+            REQUIRED_FIELD: 'required field',
+            INVALID_EMAIL_FIELD: "invalid email format"
         })
         .translations('he', {
             SIGN_IN: 'כניסה',
@@ -23,7 +25,9 @@ module.config(function ($translateProvider) {
             AUTHENTICATE_REQUEST_PREFIX: 'אמת זהות באמצעות',
             GOOGLE: 'גוגל',
             FACEBOOK: 'פייסבוק',
-            NOT_SUPPORTED: 'לא נתמך'
+            NOT_SUPPORTED: 'לא נתמך',
+            REQUIRED_FIELD: 'שדה נדרש',
+            INVALID_EMAIL_FIELD: "הכתובת אינה תקינה"
         })
         .registerAvailableLanguageKeys(['en', 'he'])
         .determinePreferredLanguage()

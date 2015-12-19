@@ -35,13 +35,23 @@ module.component('clLogSwitch', {
                 {
                     targetEvent: targetEvent,
                     templateUrl: 'partials/authProviderDialog.html',
-                    controller: ['$scope', '$mdDialog', ($scope, $mdDialog) => {
+                    controller: ['$scope', '$mdDialog', '$mdToast', ($scope, $mdDialog, $mdToast) => {
                         $scope.closeDialog = () => {$mdDialog.cancel();};
 
                         $scope.ctrl = {
                             authenticate: () => this.authenticate()
                                 .then(() => {$mdDialog.hide();})
-                                .catch(() => {$mdDialog.cancel(); return Promise.reject()})
+                                .catch(() => {$mdDialog.cancel(); return Promise.reject()}),
+                            passwordLessAuth: () => {
+                                if (!$scope.passwordLessForm.$invalid) {
+                                    $mdDialog.hide().then(() => {
+                                        $mdToast.showSimple('test');
+                                    });
+                                } else {
+                                    $scope.passwordLessForm.email.$setTouched();
+                                }
+
+                            }
                         };
                     }]
                 });

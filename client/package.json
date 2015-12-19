@@ -20,6 +20,7 @@
       "angular-cookies": "github:angular/bower-angular-cookies@1.5.0-rc.0",
       "angular-file-upload": "github:danialfarid/ng-file-upload-bower@^10.1.9",
       "angular-material": "github:angular/bower-material@1.0.1",
+      "angular-messages": "github:angular/bower-angular-messages@1.5.0-rc.0",
       "angular-route": "github:angular/bower-angular-route@1.5.0-rc.0",
       "angular-translate": "github:angular-translate/bower-angular-translate@^2.8.1",
       "angular-translate-storage-cookie": "github:angular-translate/bower-angular-translate-storage-cookie@^2.8.1",
