@@ -2,19 +2,25 @@ import {module} from './module';
 
 module
 .config(($routeProvider) => {
-    $routeProvider.when('/passwordless/:token', {
+    $routeProvider.when('/passwordless', {
         template: '',
         controller: 'PasswordlessCtrl'
     });
 })
 .controller('PasswordlessCtrl',
     class PasswordlessCtrl {
-        constructor($http, $routeParams, $location, $mdToast, $mdDialog) {
+        constructor($http, $location, $mdToast, $mdDialog) {
+            const emailToken = $location.search().et;
+            if (emailToken == null) {
+                $mdToast.showSimple('missing expected email token');
+                $location.search({}).path('').replace();
+                return;
+            }
             $http
-            .post('/api/auth/passwordless/accept', {token: $routeParams.token})
+            .post('/api/auth/passwordless/accept', {emailToken})
             .then(({data}) => {
               console.log(data);
-              $location.path(data.requestedPath);
+              $location.search({}).path(data.requestedPath).replace();
                 if (data.user.isNew) {
                     $mdDialog.show(
                         {
@@ -35,7 +41,7 @@ module
                     )
                 } else {
                     // TODO this
-                    $mdToast.showSimple('welcome ' + data.user.email);
+                    $mdToast.showSimple('welcome back ' + data.user.email);
                 }
             })
             .catch(({data}) => {
