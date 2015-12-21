@@ -8,6 +8,8 @@
     "babel-preset-stage-1": "^6.3.13",
     "babel-register": "^6.3.13",
     "bs58": "^3.0.0",
+    "co-views": "^2.1.0",
+    "ejs": "^2.3.4",
     "jwt-simple": "^0.4.0",
     "koa": "^2.0.0-alpha.3",
     "koa-bodyparser": "^3.0.0",

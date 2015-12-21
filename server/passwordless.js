@@ -32,30 +32,41 @@ passwordless.post('/api/auth/passwordless/request', bodyParser, (ctx) => {
     ctx.status = 202; //(Accepted)
 });
 
-// TODO security note
-// attacker can listen to url at token /passwordless?et=<emailToken>... then quickly send the token here
-// eventually we want to act also as /passwordless?et=<emailToken> endpoint
-// and serve the index file with the sessionToken embedded
-passwordless.post('/api/auth/passwordless/accept', bodyParser, (ctx) => {
-    console.log('passwordless got: ' + ctx.request.body.emailToken)
-    const storedValue = emailTokenCache.get(ctx.request.body.emailToken);
-    if (storedValue == null) {
-        ctx.throw(401);
+import cons from 'co-views';
+const renderView = cons('../client/server-views');
+passwordless.get(['/', '/index.html'], async (ctx) => {
+    ctx.body = await renderView('index.html.ejs');
+    ctx.type = 'text/html';
+});
+passwordless.get('/passwordless', async (ctx) => {
+    const emailToken = ctx.query.et;
+    console.log('passwordless got: ' + emailToken);
+    const storedValue = emailTokenCache.get(emailToken);
+    let passwordless;
+    if (storedValue != null) {
+        emailTokenCache.del(emailToken);
+
+
+        // TODO:
+        // find user with that validated email
+        //    if not found - create a new user with defaults and set isNewUser=true (used to open registration dialog on client)
+
+
+        passwordless = {
+            sessionToken: encodeUser({_id: 'xxx', role: 'user'}),
+            requestedPath: storedValue.path,
+            user: {
+                email: storedValue.email,
+                isNew: true
+            }
+        };
+    } else {
+        passwordless = {error: 401};
     }
-    emailTokenCache.del(ctx.request.body.emailToken);
-
-
-    // TODO:
-    // find user with that validated email
-    //    if not found - create a new user with defaults and set isNewUser=true (used to open registration dialog on client)
-    ctx.body = {
-        sessionToken: encodeUser({_id: 'xxx', role: 'user'}),
-        requestedPath: storedValue.path,
-        user: {
-            email: storedValue.email,
-            isNew: true
-        }
-    };
+    ctx.body = await renderView('index.html.ejs', {passwordless: JSON.stringify(
+        passwordless
+    )});
+    ctx.type = 'text/html';
 });
 
 export default passwordless;

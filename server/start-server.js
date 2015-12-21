@@ -9,11 +9,11 @@ import Router from 'koa-router';
 import send from 'koa-send';
 import path from 'path';
 
-const angularIdx = Router();
-angularIdx.get(/\/passwordless/, async (ctx) => {
-    await send(ctx, 'index.html', {root: path.resolve('../client/jspm-src')});
-});
-app.use(angularIdx.routes());
+//const angularIdx = Router();
+//angularIdx.get(/\/passwordless/, async (ctx) => {
+//    await send(ctx, 'index.html', {root: path.resolve('../client/jspm-src')});
+//});
+//app.use(angularIdx.routes());
 
 import passwordless from './passwordless';
 app.use(passwordless.routes());

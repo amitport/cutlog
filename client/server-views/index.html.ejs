@@ -23,6 +23,10 @@
 <script src="jspm_packages/system.js"></script>
 <script src="config.js"></script>
 <script>
+    <% if (typeof passwordless !== 'undefined') { %>
+    window.passwordless = <%- passwordless %>;
+    <% } %>
+
     System.import('index');
 </script>
 

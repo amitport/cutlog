@@ -1,6 +1,7 @@
 import {module} from './module';
 import './lang';
 import './passwordless';
+import './errors';
 
 module.config(($routeProvider, $locationProvider) => {
     $locationProvider.html5Mode(true).hashPrefix('!');
