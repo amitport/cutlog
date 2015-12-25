@@ -1,18 +1,27 @@
-import {module} from './module';
+import angular from 'angular';
+import 'angular-material';
+import 'angular-route';
+
+const module = angular.module('clPasswordLess', ['ngMaterial', 'ngRoute' /*, 'pascalprecht.translate'*/]);
 
 module
-.config(($routeProvider) => {
-    $routeProvider.when('/passwordless', {
-        template: '',
-        controller: 'PasswordlessCtrl'
-    });
-})
-.controller('PasswordlessCtrl',
-    class PasswordlessCtrl {
-        constructor($location, $mdToast, $mdDialog, $window, $timeout) {
-            if ($window.hasOwnProperty('passwordless')) {
+    .config(($routeProvider) => {
+        $routeProvider.when('/passwordless', {
+            template: '',
+            controller: 'clPasswordlessCtrl'
+        });
+    })
+    .controller('clPasswordlessCtrl',
+        class {
+            constructor($location, $mdToast, $mdDialog, $window, $timeout) {
+                if (!$window.hasOwnProperty('passwordless')) {
+                    $location.url('errors/500').replace();
+                    return;
+                }
+
                 if ($window.passwordless.hasOwnProperty('error')) {
                     $location.url(`errors/${$window.passwordless.error}`).replace();
+                    return;
                 }
 
                 if ($window.passwordless.user.isNew) {
@@ -31,7 +40,10 @@ module
                                     constructor($mdDialog) {
                                         this.$mdDialog = $mdDialog;
                                     }
-                                    cancel() {$mdDialog.cancel();}
+
+                                    cancel() {
+                                        $mdDialog.cancel();
+                                    }
                                 }
                             }
                         )
@@ -40,9 +52,10 @@ module
                     // TODO this
                     $mdToast.showSimple('welcome back ' + $window.passwordless.user.email);
                 }
-            } else {
-                $location.url('errors/500').replace();
+
             }
         }
-    }
-);
+    );
+
+
+export default module.name;
