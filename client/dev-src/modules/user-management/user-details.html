@@ -13,7 +13,8 @@
     </style>
 </head>
 <body ng-cloak ng-app="userManagementDemo">
-
+{{isAuthenticated()}}
+<md-button ng-click="setToken()">setToken</md-button>
 <ng-include src="'partials/authProviderSelection.html'"></ng-include>
 
 <!--<ng-include src="'partials/userDetailsDialog.html'"></ng-include>-->

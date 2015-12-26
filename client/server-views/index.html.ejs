@@ -19,6 +19,10 @@
 </div>
 
 <ng-view></ng-view>
+<br>
+<md-whiteframe class="md-whiteframe-1dp" dir="ltr">
+<md-button ng-click="getTemp()">getTemp()</md-button> tempData: {{tempData}}, rejection: {{rejection | json}}
+</md-whiteframe>
 
 <script src="jspm_packages/system.js"></script>
 <script src="config.js"></script>

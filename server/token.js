@@ -18,7 +18,7 @@ export function encodeUser(user) {
 }
 
 export function decodeUser(token) {
-    var payload = jwt.decode(token, tokenSecret);
+    var payload = jwt.decode(token, '32312' /*tokenSecret */);
 
     return {
         user: {

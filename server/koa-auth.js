@@ -1,4 +1,4 @@
-import {encode, decode} from './token';
+import {decodeUser} from './token';
 
 export function ensureUser(ctx, next) {
     if (!ctx.headers.authorization) {
@@ -7,7 +7,7 @@ export function ensureUser(ctx, next) {
 
     let decodedToken;
     try {
-        decodedToken = decode(ctx.headers.authorization.slice(7));
+        decodedToken = decodeUser(ctx.headers.authorization.slice(7));
     } catch (e) {
         ctx.throw(401);
     }

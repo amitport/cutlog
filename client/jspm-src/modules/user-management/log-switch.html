@@ -1,6 +1,7 @@
 <md-button ng-if="clLogSwitch.shouldDisplayLabel" ng-click="clLogSwitch.signIn($event)">
     <md-icon>person</md-icon>
     {{ 'SIGN_IN' | translate }}
+    {{clLogSwitch.clLog.isAuthenticated()}}
 </md-button>
 <md-button class="md-icon-button" ng-if="!clLogSwitch.shouldDisplayLabel" ng-click="clLogSwitch.signIn($event)">
     <md-tooltip>

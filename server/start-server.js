@@ -19,6 +19,9 @@ import path from 'path';
 import passwordless from './passwordless';
 app.use(passwordless.routes());
 
+import temp from './temp';
+app.use(temp.routes());
+
 app.listen(3000, function () {
     console.log("opened server on %j", this.address().port);
 });

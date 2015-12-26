@@ -45,8 +45,9 @@ module.controller('clAuthProviderDialogController', class {
 
 module.service('clLog', class {
 
-    constructor($mdDialog) {
+    constructor($mdDialog, $auth) {
         this.$mdDialog = $mdDialog;
+        this.isAuthenticated = $auth.isAuthenticated.bind($auth);
     }
 
     openAuthProviderDialog(targetEvent) {
@@ -77,7 +78,7 @@ module.service('clLog', class {
                     }
 
                     cancel() {
-                        $mdDialog.cancel();
+                        this.$mdDialog.cancel();
                     }
                 }
             }

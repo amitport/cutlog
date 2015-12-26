@@ -1,8 +1,9 @@
 import angular from 'angular';
 import 'angular-material';
 import 'angular-route';
+import 'satellizer';
 
-const module = angular.module('clPasswordLess', ['ngMaterial', 'ngRoute' /*, 'pascalprecht.translate'*/]);
+const module = angular.module('clPasswordLess', ['ngMaterial', 'ngRoute', 'satellizer' /*, 'pascalprecht.translate'*/]);
 
 module
     .config(($routeProvider) => {
@@ -13,7 +14,7 @@ module
     })
     .controller('clPasswordlessCtrl',
         class {
-            constructor($location, $mdToast, $mdDialog, $window, $timeout, clLog) {
+            constructor($location, $mdToast, $auth, $window, $timeout, clLog) {
                 if (!$window.hasOwnProperty('passwordless')) {
                     $location.url('errors/500').replace();
                     return;
@@ -24,6 +25,7 @@ module
                     return;
                 }
 
+                $auth.setToken($window.passwordless.sessionToken)
                 if ($window.passwordless.user.isNew) {
                     $location.url($window.passwordless.requestedPath).replace();
                     $timeout(() => {
