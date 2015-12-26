@@ -1,0 +1,14 @@
+{
+  "private": true,
+  "license": "AGPL",
+  "scripts": {
+    "postinstall": "cd server && npm i",
+    "start": "cd server && node bin/start.js",
+    "jspm": "cd client && jspm i --yes",
+    "local": "npm run postinstall && npm run jspm",
+    "sfx": "cd client && npm run sfx"
+  },
+  "engines": {
+    "node": "^5.0.0"
+  }
+}
