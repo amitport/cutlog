@@ -59,4 +59,28 @@ module.service('clLog', class {
                 controllerAs: 'ctrl'
             });
     }
+
+    openUserDetailsDialog(targetEvent, user) {
+        this.$mdDialog.show(
+            {
+                targetEvent: targetEvent,
+                clickOutsideToClose: true,
+                templateUrl: 'partials/userDetailsDialog.html',
+                controllerAs: 'ctrl',
+                locals: {
+                    user
+                },
+                bindToController: true,
+                controller: class {
+                    constructor($mdDialog) {
+                        this.$mdDialog = $mdDialog;
+                    }
+
+                    cancel() {
+                        $mdDialog.cancel();
+                    }
+                }
+            }
+        )
+    }
 });

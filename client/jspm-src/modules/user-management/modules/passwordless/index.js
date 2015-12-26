@@ -13,7 +13,7 @@ module
     })
     .controller('clPasswordlessCtrl',
         class {
-            constructor($location, $mdToast, $mdDialog, $window, $timeout) {
+            constructor($location, $mdToast, $mdDialog, $window, $timeout, clLog) {
                 if (!$window.hasOwnProperty('passwordless')) {
                     $location.url('errors/500').replace();
                     return;
@@ -27,26 +27,7 @@ module
                 if ($window.passwordless.user.isNew) {
                     $location.url($window.passwordless.requestedPath).replace();
                     $timeout(() => {
-                        $mdDialog.show(
-                            {
-                                clickOutsideToClose: true,
-                                templateUrl: 'partials/userDetailsDialog.html',
-                                controllerAs: 'ctrl',
-                                locals: {
-                                    user: $window.passwordless.user
-                                },
-                                bindToController: true,
-                                controller: class {
-                                    constructor($mdDialog) {
-                                        this.$mdDialog = $mdDialog;
-                                    }
-
-                                    cancel() {
-                                        $mdDialog.cancel();
-                                    }
-                                }
-                            }
-                        )
+                        clLog.openUserDetailsDialog(undefined, $window.passwordless.user);
                     });
                 } else {
                     // TODO this
