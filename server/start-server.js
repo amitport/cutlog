@@ -23,6 +23,6 @@ app.use(passwordless.routes());
 import temp from './temp';
 app.use(temp.routes());
 
-app.listen(3000, function () {
+app.listen(process.env.PORT || 3000, function () {
     console.log("opened server on %j", this.address().port);
 });
