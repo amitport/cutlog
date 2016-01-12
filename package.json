@@ -4,7 +4,7 @@
   "scripts": {
     "postinstall": "npm run npmi && npm run jspmi",
     "npmi": "cd server && npm i",
-    "jspmi": "cd client && npm i && npm run jspm i --yes",
+    "jspmi": "cd client && npm i && npm run jspm install --yes",
     "start": "cd server && node main.js",
     "sfx": "cd client && npm run sfx"
   },
