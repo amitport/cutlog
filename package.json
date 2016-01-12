@@ -2,10 +2,10 @@
   "private": true,
   "license": "AGPL",
   "scripts": {
-    "postinstall": "cd server && npm i",
+    "postinstall": "npmi && jspmi",
     "start": "cd server && node main.js",
-    "jspm": "cd client && jspm i --yes",
-    "local": "npm run postinstall && npm run jspm",
+    "npmi": "cd server && npm i",
+    "jspmi": "cd client && jspm i --yes",
     "sfx": "cd client && npm run sfx"
   },
   "engines": {

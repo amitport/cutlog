@@ -1,3 +1,0 @@
-[submodule "server/koa-static"]
-	path = server/koa-static
-	url = git://github.com/smcmurray/static.git

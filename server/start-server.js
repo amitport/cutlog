@@ -1,10 +1,11 @@
 import Koa from 'koa';
-import serve from './koa-static/index';
+import convert from 'koa-convert';
+import serve from 'koa-static';
 
 const app = new Koa();
 
-app.use(serve('../client/jspm-src'));  //TODO enable this only in development and inlude sfx version in production
-app.use(serve('../client/dev-src')); //TODO enable this only in development
+app.use(convert(serve('../client/jspm-src')));  //TODO enable this only in development and inlude sfx version in production
+app.use(convert(serve('../client/dev-src'))); //TODO enable this only in development
 
 import Router from 'koa-router';
 import send from 'koa-send';
