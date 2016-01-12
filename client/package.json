@@ -1,5 +1,4 @@
 {
-  "name": "isradoc-client",
   "private": true,
   "license": "AGPL",
   "author": "Amit Portnoy <amit.portnoy@gmail.com> (https://github.com/amitport)",
@@ -7,7 +6,7 @@
     "sfx": "jspm bundle-sfx index jspm-sfx/main.min.js --minify --skip-source-maps"
   },
   "devDependencies": {
-    "jspm": "^0.16.19"
+    "jspm": "^0.16.20"
   },
   "jspm": {
     "directories": {
