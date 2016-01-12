@@ -3,7 +3,8 @@
   "license": "AGPL",
   "author": "Amit Portnoy <amit.portnoy@gmail.com> (https://github.com/amitport)",
   "scripts": {
-    "sfx": "jspm bundle-sfx index jspm-sfx/main.min.js --minify --skip-source-maps"
+    "sfx": "jspm bundle-sfx index jspm-sfx/main.min.js --minify --skip-source-maps",
+    "jspm": "jspm"
   },
   "devDependencies": {
     "jspm": "^0.16.20"
