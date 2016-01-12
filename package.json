@@ -2,7 +2,7 @@
   "private": true,
   "license": "AGPL",
   "scripts": {
-    "postinstall": "npmi && jspmi",
+    "postinstall": "npm run npmi & npm run jspmi",
     "start": "cd server && node main.js",
     "npmi": "cd server && npm i",
     "jspmi": "cd client && jspm i --yes",
