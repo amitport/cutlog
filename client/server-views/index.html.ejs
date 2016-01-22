@@ -28,7 +28,7 @@
 <script>window.passwordless = <%- passwordless %>;</script>
 <% } %>
 
-<% if (typeof env !== 'undefined' && env === 'production') { %>
+<% if ( typeof env !== 'undefined' && env === 'production') { %>
 <script src="main.bundle.js"></script>
 <% }  else { %>
 <script src="jspm_packages/system.js"></script>
