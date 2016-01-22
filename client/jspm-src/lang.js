@@ -53,8 +53,8 @@ module.component('langSwitch', {
             <md-icon md-menu-origin>language</md-icon>
           </md-button>
           <md-menu-content>
-            <md-menu-item ng-repeat="(code, lang) in langSwitch.languages">
-              <md-button ng-click="langSwitch.useLang(code)" ng-disabled="lang === langSwitch.currentLang">
+            <md-menu-item ng-repeat="(code, lang) in $ctrl.languages">
+              <md-button ng-click="$ctrl.useLang(code)" ng-disabled="lang === $ctrl.currentLang">
                 {{lang.name}}
               </md-button>
             </md-menu-item>
