@@ -35,7 +35,7 @@ passwordless.post('/api/auth/passwordless/request', bodyParser, (ctx) => {
 import cons from 'co-views';
 const renderView = cons('../client/server-views');
 passwordless.get(['/', '/index.html'], async (ctx) => {
-    ctx.body = await renderView('index.html.ejs');
+    ctx.body = await renderView('index.html.ejs', {env: process.env.NODE_ENV});
     ctx.type = 'text/html';
 });
 passwordless.get('/passwordless', async (ctx) => {
