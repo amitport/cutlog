@@ -12,7 +12,7 @@
         }
     </style>
 </head>
-<body ng-cloak ng-app="cutlog">
+<body ng-cloak>
 <div layout="row" layout-align="end center" layout-padding>
     <cl-log-switch></cl-log-switch>
     <lang-switch></lang-switch>
@@ -24,15 +24,20 @@
 <md-button ng-click="getTemp()">getTemp()</md-button> tempData: {{tempData}}, rejection: {{rejection | json}}
 </md-whiteframe>
 
+<% if (typeof passwordless !== 'undefined') { %>
+<script>window.passwordless = <%- passwordless %>;</script>
+<% } %>
+
+<% if (typeof env !== 'undefined' && env === 'production') { %>
+<script src="main.bundle.js"></script>
+<% }  else { %>
 <script src="jspm_packages/system.js"></script>
 <script src="config.js"></script>
 <script>
-    <% if (typeof passwordless !== 'undefined') { %>
-    window.passwordless = <%- passwordless %>;
-    <% } %>
-
     System.import('index');
 </script>
+<% } %>
+</body>
 
 </body>
 </html>

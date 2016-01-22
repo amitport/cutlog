@@ -9,6 +9,6 @@
     "sfx": "cd client && npm run sfx"
   },
   "engines": {
-    "node": "^5.4.0"
+    "node": "^5.5.0"
   }
 }

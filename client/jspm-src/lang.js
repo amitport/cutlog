@@ -1,7 +1,7 @@
 import {module} from './module';
 import './lang.he.css!';
 
-module.config(function ($translateProvider) {
+module.config(['$translateProvider', function ($translateProvider) {
     $translateProvider
         .translations('en', {
             SIGN_IN: 'Sign In',
@@ -43,7 +43,7 @@ module.config(function ($translateProvider) {
         .determinePreferredLanguage()
         .useSanitizeValueStrategy(null)
         .useLocalStorage();
-});
+}]);
 
 module.component('langSwitch', {
     template: `
@@ -62,6 +62,8 @@ module.component('langSwitch', {
         </md-menu>
     `,
     controller: class {
+        static $inject = ['$translate', '$window'];
+
         constructor($translate, $window) {
             this.$translate = $translate;
             this.$window = $window;

@@ -14,4 +14,6 @@ import 'angular-translate-storage-cookie';
 
 import userManagementModule from './modules/user-management/index';
 
-export const module = angular.module('cutlog', ['ngMaterial', 'ngCookies', 'ngMessages', 'ngRoute', 'pascalprecht.translate', userManagementModule]);
+export const module = angular.module('cutlog', [
+    'ngMaterial', 'ngCookies', 'ngMessages', 'ngRoute', 'pascalprecht.translate'
+    , userManagementModule]);

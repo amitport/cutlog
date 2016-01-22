@@ -4,6 +4,8 @@ import './log-service';
 module.component('clLogSwitch', {
     templateUrl: 'modules/user-management/log-switch.html',
     controller: class {
+        static $inject = ['$scope', '$mdConstant', '$window', '$mdDialog', 'clLog'];
+
         constructor($scope, $mdConstant, $window, $mdDialog, clLog) {
             this.clLog = clLog;
             this.$mdDialog = $mdDialog;

@@ -6,14 +6,16 @@ import 'satellizer';
 const module = angular.module('clPasswordLess', ['ngMaterial', 'ngRoute', 'satellizer' /*, 'pascalprecht.translate'*/]);
 
 module
-    .config(($routeProvider) => {
+    .config(['$routeProvider', ($routeProvider) => {
         $routeProvider.when('/passwordless', {
             template: '',
             controller: 'clPasswordlessCtrl'
         });
-    })
+    }])
     .controller('clPasswordlessCtrl',
         class {
+            static $inject = ['$location', '$mdToast', '$auth', '$window', '$timeout', 'clLog'];
+
             constructor($location, $mdToast, $auth, $window, $timeout, clLog) {
                 if (!$window.hasOwnProperty('passwordless')) {
                     $location.url('errors/500').replace();

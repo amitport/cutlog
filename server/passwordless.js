@@ -63,9 +63,13 @@ passwordless.get('/passwordless', async (ctx) => {
     } else {
         passwordless = {error: 401};
     }
-    ctx.body = await renderView('index.html.ejs', {passwordless: JSON.stringify(
-        passwordless
-    )});
+    ctx.body = await renderView('index.html.ejs', {
+            passwordless: JSON.stringify(
+                passwordless
+            ),
+            env: process.env.NODE_ENV
+        }
+    );
     ctx.type = 'text/html';
 });
 

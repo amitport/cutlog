@@ -1,6 +1,8 @@
 import {module} from './module';
 
 module.controller('clAuthProviderDialogController', class {
+    static $inject = ['$mdDialog', '$mdToast', '$http', '$window'];
+
     constructor($mdDialog, $mdToast, $http, $window) {
         this.$mdDialog = $mdDialog;
         this.$mdToast = $mdToast;
@@ -44,6 +46,7 @@ module.controller('clAuthProviderDialogController', class {
 });
 
 module.service('clLog', class {
+    static $inject = ['$mdDialog', '$auth'];
 
     constructor($mdDialog, $auth) {
         this.$mdDialog = $mdDialog;
@@ -73,6 +76,8 @@ module.service('clLog', class {
                 },
                 bindToController: true,
                 controller: class {
+                    static $inject = ['$mdDialog'];
+
                     constructor($mdDialog) {
                         this.$mdDialog = $mdDialog;
                     }
