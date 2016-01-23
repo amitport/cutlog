@@ -19,6 +19,7 @@
     "koa-static": "^2.0.0",
     "moment": "^2.10.6",
     "node-cache": "^3.0.0",
+    "sparkpost": "^1.1.0",
     "validator": "^4.4.0"
   }
 }

@@ -5,6 +5,10 @@ import BodyParser from 'koa-bodyparser';
 import Router from 'koa-router';
 import validator from 'validator';
 
+import SparkPost from 'sparkpost';
+
+const sparkPost = new SparkPost();
+
 import {encodeUser} from './token';
 
 // use in-memory cache for random tokens (TODO move to DB when moving to cluster)
@@ -27,6 +31,19 @@ passwordless.post('/api/auth/passwordless/request', bodyParser, (ctx) => {
     // TODO send emailToken via the email instead of
     console.log('passwordless sent: ' + emailToken);
 
+    sparkPost.transmissions.send({transmissionBody: {
+        content: {templateId: 'email-confirmation'},
+        substitutionData: {et: emailToken},
+        recipients: [{address: {email}}]
+    }}, function(err, res) {
+        if (err) {
+            console.log('Whoops! Something went wrong');
+            console.error(err);
+        } else {
+            console.log(res.body);
+            console.log('Woohoo! You just sent your first mailing!');
+        }
+    });
     // next if anyone calls /passwordless?et=<emailToken> before exp it will be redirected to path
 
     ctx.status = 202; //(Accepted)
