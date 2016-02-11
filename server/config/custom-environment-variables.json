@@ -1,0 +1,7 @@
+{
+	"mongo": {
+		"uri": "MONGO_URL"
+	},
+	"env": "NODE_ENV",
+	"port": "PORT"
+}

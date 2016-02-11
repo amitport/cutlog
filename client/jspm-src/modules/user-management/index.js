@@ -1,16 +1,8 @@
-import './log-switch';
+import angular from 'angular';
 
-import {module} from './module';
+import authModule from './modules/auth/index';
+import userModule from './modules/user/index';
+import uiModule from './modules/ui/index';
 
-module.run(['$rootScope', '$window', 'SatellizerConfig',
-    function($rootScope, $window, SatellizerConfig) {
-        const authTokenName = SatellizerConfig.tokenPrefix ? SatellizerConfig.tokenPrefix + '_' + SatellizerConfig.tokenName : SatellizerConfig.tokenName;
-
-        $window.addEventListener('storage', function(event) {
-            if (event.key === authTokenName) {
-                $rootScope.$evalAsync();
-            }
-        });
-    }]);
-
-export default module.name;
+export default angular.module('clUserManagement',
+    [authModule, userModule, uiModule]).name;

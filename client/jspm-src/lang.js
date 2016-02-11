@@ -15,11 +15,17 @@ module.config(['$translateProvider', function ($translateProvider) {
             NOT_SUPPORTED: 'not supported',
             REQUIRED_FIELD: 'required field',
             INVALID_EMAIL_FIELD: 'invalid email format',
+            SERVER_ERR_EMAIL_FIELD: 'Submission failed, please try again later',
+            EMAIL_SENT_TITLE: 'You\'re almost there!',
+            EMAIL_SENT_SUB: 'A confirmation link should arrive in your email shortly',
             PASSWORDLESS_REQUEST_ACCEPTED: 'Request accepted! Log-in details should arrive at your email shortly',
             USER_ACCOUNT: 'User Account',
             CANCEL: 'cancel',
             SAVE: 'save',
-            NEW_USER_ACCOUNT: 'New User Account'
+            NEW_USER_ACCOUNT: 'New User Account',
+            OPEN_USER_MENU: 'Open user menu',
+            EDIT_USER_PROFILE: 'Edit profile',
+            SIGN_OUT: 'Sign out'
         })
         .translations('he', {
             SIGN_IN: 'כניסה',
@@ -33,11 +39,17 @@ module.config(['$translateProvider', function ($translateProvider) {
             NOT_SUPPORTED: 'לא נתמך',
             REQUIRED_FIELD: 'שדה נדרש',
             INVALID_EMAIL_FIELD: 'הכתובת אינה תקינה',
+            SERVER_ERR_EMAIL_FIELD: 'השליחה נכשלה, נא נסה מאוחר יותר',
+            EMAIL_SENT_TITLE: 'כמעט סיימנו!',
+            EMAIL_SENT_SUB: 'לינק אישור נשלח לכתובת המייל שלך',
             PASSWORDLESS_REQUEST_ACCEPTED: 'בקשתך התקבלה! פרטי כניסה יגיעו לתיבת הדואר בדקות הקרובות',
             USER_ACCOUNT: 'חשבון משתמש',
             CANCEL: 'בטל',
             SAVE: 'שמור',
-            NEW_USER_ACCOUNT: 'חשבון משתמש חדש'
+            NEW_USER_ACCOUNT: 'חשבון משתמש חדש',
+            OPEN_USER_MENU: 'פתיחת תפריט משתמש',
+            EDIT_USER_PROFILE: 'עריכת פרופיל',
+            SIGN_OUT: 'יציאה'
         })
         .registerAvailableLanguageKeys(['en', 'he'])
         .determinePreferredLanguage()

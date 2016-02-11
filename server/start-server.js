@@ -10,21 +10,21 @@ if (process.env.NODE_ENV === 'production') {
 }
 app.use(convert(serve('../client/dev-src'))); //TODO enable this only in development
 
+import initializeDbConnection from './models/initializeDbConnection';
+initializeDbConnection();
+
+import renderView from './renderView';
 import Router from 'koa-router';
-import send from 'koa-send';
-import path from 'path';
-
-//const angularIdx = Router();
-//angularIdx.get(/\/passwordless/, async (ctx) => {
-//    await send(ctx, 'index.html', {root: path.resolve('../client/jspm-src')});
-//});
-//app.use(angularIdx.routes());
-
-import passwordless from './passwordless';
-app.use(passwordless.routes());
-
-import temp from './temp';
-app.use(temp.routes());
+const indexRouter = Router();
+indexRouter.get(['/', '/index.html'], async (ctx) => {
+    ctx.body = await renderView('index.html.ejs', {env: process.env.NODE_ENV});
+    ctx.type = 'text/html';
+});
+app.use(indexRouter.routes());
+import auth from './routes/auth';
+app.use(auth.routes());
+import users from './routes/users';
+app.use(users.routes());
 
 app.listen(process.env.PORT || 3000, function () {
     console.log("opened server on %j", this.address().port);

@@ -1,8 +1,24 @@
-import {module} from './module';
-import './log-service';
+import module from './base';
 
-module.component('clLogSwitch', {
-    templateUrl: 'modules/user-management/log-switch.html',
+/*import './log-service'; */
+
+import './sign-in-dialog.js';
+
+//noinspection JSUnresolvedVariable
+module.component('clLogSwitch',
+    {
+    templateUrl:
+        `${__moduleName.replace(/[^\/]*$/, '')}user-menu.html`,
+    controller: ['signInDialog', 'tbs.user', function(signInDialog, user) {
+        return {
+            user,
+            signIn(targetEvent) {
+                return signInDialog.open(targetEvent);
+            }
+        }
+    }]
+});
+    /*
     controller: class {
         static $inject = ['$scope', '$mdConstant', '$window', '$mdDialog', 'clLog'];
 
@@ -28,3 +44,4 @@ module.component('clLogSwitch', {
     }
 
 });
+*/

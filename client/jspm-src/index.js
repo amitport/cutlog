@@ -10,7 +10,7 @@ module.config(['$routeProvider', '$locationProvider',
     $locationProvider.html5Mode(true).hashPrefix('!');
 
     $routeProvider.when('/', {
-        template: 'main'
+        template: 'main <br><user-box></user-box>'
     });
 }]);
 

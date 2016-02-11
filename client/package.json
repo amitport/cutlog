@@ -7,27 +7,27 @@
     "jspm": "jspm"
   },
   "devDependencies": {
-    "jspm": "^0.16.24"
+    "jspm": "^0.16.27"
   },
   "jspm": {
     "directories": {
       "baseURL": "jspm-src"
     },
     "dependencies": {
-      "angular": "github:angular/bower-angular@1.5.0-rc.1",
-      "angular-animate": "github:angular/bower-angular-animate@1.5.0-rc.1",
-      "angular-aria": "github:angular/bower-angular-aria@1.5.0-rc.1",
-      "angular-cookies": "github:angular/bower-angular-cookies@1.5.0-rc.1",
+      "angular": "github:angular/bower-angular@1.5.0",
+      "angular-animate": "github:angular/bower-angular-animate@1.5.0",
+      "angular-aria": "github:angular/bower-angular-aria@1.5.0",
+      "angular-cookies": "github:angular/bower-angular-cookies@1.5.0",
       "angular-file-upload": "github:danialfarid/ng-file-upload-bower@11.2.1",
-      "angular-material": "github:angular/bower-material@1.0.3",
-      "angular-messages": "github:angular/bower-angular-messages@1.5.0-rc.1",
-      "angular-route": "github:angular/bower-angular-route@1.5.0-rc.1",
-      "angular-translate": "github:angular-translate/bower-angular-translate@^2.8.1",
-      "angular-translate-storage-cookie": "github:angular-translate/bower-angular-translate-storage-cookie@^2.8.1",
-      "angular-translate-storage-local": "github:angular-translate/bower-angular-translate-storage-local@^2.8.1",
+      "angular-material": "github:angular/bower-material@1.0.5",
+      "angular-messages": "github:angular/bower-angular-messages@1.5.0",
+      "angular-route": "github:angular/bower-angular-route@1.5.0",
+      "angular-translate": "github:angular-translate/bower-angular-translate@^2.9.0",
+      "angular-translate-storage-cookie": "github:angular-translate/bower-angular-translate-storage-cookie@^2.9.0",
+      "angular-translate-storage-local": "github:angular-translate/bower-angular-translate-storage-local@^2.9.0",
       "css": "github:systemjs/plugin-css@^0.1.20",
       "material-design-icons": "github:google/material-design-icons@^2.1.1",
-      "moment": "npm:moment@2.11.1",
+      "moment": "npm:moment@2.11.2",
       "ngImgCrop": "github:alexk111/ngImgCrop@^0.3.2",
       "satellizer": "github:sahat/satellizer@0.13.4"
     },
