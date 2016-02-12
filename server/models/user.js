@@ -1,33 +1,33 @@
 import mongoose from 'mongoose';
 import validators from 'mongoose-validators';
+import uniqueValidator from 'mongoose-beautiful-unique-validation';
 
-const User = mongoose.model('User',
-  new mongoose.Schema({
-    displayName: {
-      type: String,
-      unique: true,
-      required: true
+const UserSchema = new mongoose.Schema({
+    username: {
+        type: String,
+        unique: true,
+        required: true
     },
     email: {
-      type: String,
-      lowercase: true,
-      validate: validators.isEmail(),
-      unique: true,
-      required: true
+        type: String,
+        lowercase: true,
+        validate: validators.isEmail(),
+        unique: true,
+        required: true
     },
     avatarImageUrl: {
-      type: String,
-      validate: validators.isURL()
+        type: String,
+        validate: validators.isURL()
     },
     role: {
-      type: String,
-      enum: ['user', 'admin'],
-      default: 'user'
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
     },
     linkedAuthProviders: {
-      google: String
+        google: String
     }
-  })
-);
+});
+UserSchema.plugin(uniqueValidator);
 
-export default User;
+export default mongoose.model('User', UserSchema);

@@ -16,17 +16,17 @@
                 </span>
                     <md-input-container md-no-float class="md-block">
                         <md-icon>email</md-icon>
-                        <input name="email" style="min-width: 230px;" ng-model="email" type="email" required
+                        <input name="email" style="min-width: 230px;" ng-model="$ctrl.email" type="email" required
                                ng-keyup="$event.keyCode == 13 && $ctrl.signInWithEmail()"
                                placeholder="{{'EMAIL' | translate}}">
                         <div ng-messages="$ctrl.passwordlessForm.email.$error">
                             <div ng-message="required">{{'REQUIRED_FIELD' | translate}}</div>
                             <div ng-message="email">{{'INVALID_EMAIL_FIELD' | translate}}</div>
-                            <div ng-message="server">{{'SERVER_ERR_EMAIL_FIELD' | translate}}</div>
+                            <div ng-message="server">{{'SERVER_ERR_FIELD' | translate}}</div>
                         </div>
                     </md-input-container>
                 </div>
-                <md-button style="font-weight: normal" ng-click="$ctrl.signInWithEmail(email)">{{'CONTINUE' |
+                <md-button style="font-weight: normal" ng-click="$ctrl.signInWithEmail()">{{'CONTINUE' |
                     translate}}
                 </md-button>
             </form>

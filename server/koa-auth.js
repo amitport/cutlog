@@ -1,17 +1,30 @@
-import {decodeUser} from './token';
+import {decodeUser, decodeAuth} from './tokens';
 
-export async function ensureUser(ctx, next) {
-    if (!ctx.headers['x-access-token']) {
+export async function ensureAuth(ctx, next) {
+    if (!ctx.headers.hasOwnProperty('x-auth-token')) {
         ctx.throw(401);
     }
 
-    let decodedToken;
     try {
-        decodedToken = decodeUser(ctx.headers['x-access-token']);
+        ctx.state.auth = decodeAuth(ctx.headers['x-auth-token']);
     } catch (e) {
         ctx.throw(401);
     }
-    ctx.state.user = decodedToken.user;
+
+    await next();
+}
+
+export async function ensureUser(ctx, next) {
+    if (!ctx.headers.hasOwnProperty('x-access-token')) {
+        ctx.throw(401);
+    }
+
+    try {
+        ctx.state.user = decodeUser(ctx.headers['x-access-token']);
+    } catch (e) {
+        ctx.throw(401);
+    }
+
     await next();
 }
 

@@ -1,6 +1,5 @@
 import Router from 'koa-router';
 import NodeCache from 'node-cache';
-import BodyParser from 'koa-bodyparser';
 import validator from 'validator';
 import crypto from 'crypto';
 import base58 from 'bs58';
@@ -8,17 +7,22 @@ import SparkPost from 'sparkpost';
 
 const sparkPost = new SparkPost();
 
-import {encodeUser} from '../token';
+import {encodeUser, encodeAuth} from '../tokens';
+import {ensureAuth} from '../koa-auth';
 
 import renderView from '../renderView'
+import bodyParser from '../bodyParser';
+import User from '../models/user';
 
 // use in-memory cache for random tokens (TODO move to DB when moving to cluster)
 // keep email tokens for an hour check every 10 minutes for deleting expired tokens
 const emailTokenCache = new NodeCache({stdTTL: 3600, checkperiod: 600});
-const bodyParser = BodyParser();
+
+emailTokenCache.set('XchxXNYkDuE2emk3EKzXKF', {email: 'amit@test.com', path: '/'})
+
 const auth = Router();
 
-auth.post('/api/auth/signInWithEmail', bodyParser, (ctx) => {
+auth.post('/api/auth/signInWithEmail', bodyParser, async (ctx) => {
     const {email, path} = ctx.request.body;
     if (!validator.isIn(path, ['/']) // hard-code white-list redirect paths
         || !validator.isEmail(email)) {
@@ -80,21 +84,19 @@ auth.get('/et/:et', async (ctx) => {
     emailTokenCache.del(emailToken);
 
 
-    // TODO:
-    // find user with that validated email
-    //    if not found - create a new user with defaults and set isNewUser=true (used to open registration dialog on client)
+    const user = await User.findOne({email: storedValue.email}).select('role').lean().exec();
+
+    const emailAuth = {originalPath: storedValue.path};
+    if (user != null) {
+        emailAuth.isRegistered = true;
+        emailAuth.accessToken = encodeUser(user);
+    } else {
+        emailAuth.isRegistered = false;
+        emailAuth.authToken = encodeAuth({method: 'email', email: storedValue.email})
+    }
 
     ctx.body = await renderView('index.html.ejs', {
-            __flash: JSON.stringify(
-                {
-                    emailAuth: {
-                        originalPath: storedValue.path,
-                        isRegistered: false,
-                        accessToken: encodeUser({_id: '56ba63bb674851bc15d95921', role: 'user'}),
-                        registrationToken: 'test registrationToken'
-                    }
-                }
-            ),
+            __flash: JSON.stringify({emailAuth}),
             env: process.env.NODE_ENV
         }
     );

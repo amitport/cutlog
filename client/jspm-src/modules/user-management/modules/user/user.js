@@ -2,8 +2,8 @@ import module from './base';
 
 module.service('tbs.user', class {
 
-    static $inject = ['$http', '$rootScope', '$timeout', '$log', '$window'];
-    constructor($http, $rootScope, $timeout, $log, $window) {
+    static $inject = ['$http', '$rootScope', '$timeout', '$log', '$window', 'auth.tokens'];
+    constructor($http, $rootScope, $timeout, $log, $window, tokens) {
         // in order to prevent flicker, cache and load user to local storage,
         // but clear it if we could not refresh user after 2 seconds
         let initialRefreshOk = false;
@@ -22,7 +22,7 @@ module.service('tbs.user', class {
 
                 $window.localStorage.user = JSON.stringify(this);
 
-                $log.info('signed in as ' + this.displayName);
+                $log.info('signed in as ' + this.username);
             }).catch(console.error.bind(console))
         });
 
@@ -33,6 +33,8 @@ module.service('tbs.user', class {
         // use 'defineProperty' in order to avoid serializing this.storage
         Reflect.defineProperty(this, '$window', {value: $window});
         Reflect.defineProperty(this, '$log', {value: $log});
+        Reflect.defineProperty(this, 'tokens', {value: tokens});
+
     }
 
     clear() {
@@ -43,6 +45,10 @@ module.service('tbs.user', class {
 
         this.$log.info('logged out');
         // todo show "you've been logout toast"
+    }
+
+    signOut() {
+        this.tokens.clear();
     }
 });
 
@@ -70,7 +76,7 @@ module.component('userBox', {
 <div>
 <div>isSignedIn: {{!!$ctrl.user.isSignedIn}}</div>
 <div ng-show="$ctrl.user.isSignedIn">
-    <div>displayName: {{$ctrl.user.displayName}}</div>
+    <div>username: {{$ctrl.user.username}}</div>
     <button ng-click="$ctrl.auth.clear()">sign out</button>
 </div>
 

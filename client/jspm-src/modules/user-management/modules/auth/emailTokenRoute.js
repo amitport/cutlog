@@ -11,7 +11,7 @@ module.config(['$routeProvider', ($routeProvider) => {
                 if (flash.emailAuth.isRegistered) {
                     tokens.set({access: flash.emailAuth.accessToken});
                 } else {
-                    $rootScope.$broadcast('user.register', flash.emailAuth.registrationToken);
+                    $rootScope.$broadcast('user.register', flash.emailAuth.authToken);
                 }
             });
         }]

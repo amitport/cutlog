@@ -1,5 +1,6 @@
 import './user-menu';
-//import './modules/auth/index';
+import './register-dialog';
+
 
 
 import module from './base';
@@ -15,9 +16,9 @@ import module from './base';
 //        });
 //    }]);
 
-module.run(['$rootScope', function ($rootScope) {
-    $rootScope.$on('user.register', (event, registrationToken) => {
-        console.log(registrationToken);
+module.run(['$rootScope', 'registerDialog', function ($rootScope, registerDialog) {
+    $rootScope.$on('user.register', (event, authToken) => {
+        registerDialog.open(authToken);
     })
 }]);
 

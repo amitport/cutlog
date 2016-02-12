@@ -19,21 +19,6 @@
 </div>
 
 <ng-view></ng-view>
-<br>
-<md-whiteframe class="md-whiteframe-1dp">
-    <form name="projectForm">
-        <md-input-container class="md-block">
-            <label>Username</label>
-            <input md-maxlength="12" required ng-pattern="/^[a-z]+(( |-)[a-z]+)*(( |-)?[0-9]{1,2})?$/i"
-                   name="username" ng-model="project.username">
-            <div ng-messages="projectForm.username.$error">
-                <div ng-message="required">This is required.</div>
-                <div ng-message="md-maxlength">Please use less than 12 characters.</div>
-                <div ng-message="pattern">Please use only english characters, hyphens (-) or spaces as delimeters, and optionally 1 or 2 numbers at the end.</div>
-            </div>
-        </md-input-container>
-    </form>
-</md-whiteframe>
 
 <% if (typeof __flash !== 'undefined') { %>
 <script>window.__flash = <%- __flash %>;</script>

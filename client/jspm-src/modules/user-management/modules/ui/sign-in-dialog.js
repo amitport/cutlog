@@ -18,12 +18,8 @@ module.factory('signInDialog', ['$mdDialog', function ($mdDialog) {
     }
 }]);
 
-module.controller('signInDialogController', ['$mdDialog',
-    function ($mdDialog) {
-
-        return {
-            cancel() {
-                $mdDialog.cancel();
-            }
-        }
-    }]);
+module.controller('signInDialogController', ['$mdDialog', function ($mdDialog) {
+    this.cancel = () => {
+        $mdDialog.cancel();
+    }
+}]);

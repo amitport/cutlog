@@ -10,12 +10,16 @@ module.config(['$translateProvider', function ($translateProvider) {
             EMAIL_LONG: 'Email address',
             CONTINUE: 'Next',
             AUTHENTICATE_REQUEST_PREFIX: 'Sign in using',
+            SELECT_USERENAME_REQUEST: 'Select username',
             GOOGLE: 'Google',
             FACEBOOK: 'Facebook',
             NOT_SUPPORTED: 'not supported',
             REQUIRED_FIELD: 'required field',
+            MAX_LENGTH_12: 'please use no more than 12 characters',
+            USERNAME_PATTERN: 'please use only english characters, hyphens (-) or spaces as delimeters, and optionally 1 or 2 numbers at the end',
             INVALID_EMAIL_FIELD: 'invalid email format',
-            SERVER_ERR_EMAIL_FIELD: 'Submission failed, please try again later',
+            USERNAME_CONFLICT: 'the name is taken, try another one',
+            SERVER_ERR_FIELD: 'submission failed, please try again later',
             EMAIL_SENT_TITLE: 'You\'re almost there!',
             EMAIL_SENT_SUB: 'A confirmation link should arrive in your email shortly',
             PASSWORDLESS_REQUEST_ACCEPTED: 'Request accepted! Log-in details should arrive at your email shortly',
@@ -25,7 +29,9 @@ module.config(['$translateProvider', function ($translateProvider) {
             NEW_USER_ACCOUNT: 'New User Account',
             OPEN_USER_MENU: 'Open user menu',
             EDIT_USER_PROFILE: 'Edit profile',
-            SIGN_OUT: 'Sign out'
+            SIGN_OUT: 'Sign out',
+            REGISTER: 'Welcome!',
+            FINISH: 'Finish'
         })
         .translations('he', {
             SIGN_IN: 'כניסה',
@@ -34,12 +40,16 @@ module.config(['$translateProvider', function ($translateProvider) {
             EMAIL_LONG: 'כתובת אימייל',
             CONTINUE: 'המשך',
             AUTHENTICATE_REQUEST_PREFIX: 'אמת זהות באמצעות',
+            SELECT_USERENAME_REQUEST: 'בחר שם משתמש',
             GOOGLE: 'גוגל',
             FACEBOOK: 'פייסבוק',
             NOT_SUPPORTED: 'לא נתמך',
             REQUIRED_FIELD: 'שדה נדרש',
+            MAX_LENGTH_12: 'בבקשה השתמש בלא יותר מ-12 תווים',
+            USERNAME_PATTERN: '',
             INVALID_EMAIL_FIELD: 'הכתובת אינה תקינה',
-            SERVER_ERR_EMAIL_FIELD: 'השליחה נכשלה, נא נסה מאוחר יותר',
+            SERVER_ERR_FIELD: 'השליחה נכשלה, נא נסה מאוחר יותר',
+            USERNAME_CONFLICT: 'השם תפוס, נסה אחד אחר',
             EMAIL_SENT_TITLE: 'כמעט סיימנו!',
             EMAIL_SENT_SUB: 'לינק אישור נשלח לכתובת המייל שלך',
             PASSWORDLESS_REQUEST_ACCEPTED: 'בקשתך התקבלה! פרטי כניסה יגיעו לתיבת הדואר בדקות הקרובות',
@@ -49,7 +59,9 @@ module.config(['$translateProvider', function ($translateProvider) {
             NEW_USER_ACCOUNT: 'חשבון משתמש חדש',
             OPEN_USER_MENU: 'פתיחת תפריט משתמש',
             EDIT_USER_PROFILE: 'עריכת פרופיל',
-            SIGN_OUT: 'יציאה'
+            SIGN_OUT: 'יציאה',
+            REGISTER: 'ברוך הבא!',
+            FINISH: 'סיים'
         })
         .registerAvailableLanguageKeys(['en', 'he'])
         .determinePreferredLanguage()
