@@ -6,7 +6,7 @@ module.factory('ui.signInDialog', ['$mdDialog', function ($mdDialog) {
     return {
         open(targetEvent) {
             //noinspection JSUnresolvedVariable
-            $mdDialog.show(
+            return $mdDialog.show(
                 {
                     targetEvent: targetEvent,
                     clickOutsideToClose: true,
