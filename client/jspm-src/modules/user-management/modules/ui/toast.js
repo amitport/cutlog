@@ -15,7 +15,7 @@ module.factory('ui.toast', ['$mdToast', '$window', function ($mdToast, $window) 
                                 </md-toast>
                             `,
                 position: ($window.document.dir == 'ltr') ? 'bottom left' : 'bottom right',
-                hideDelay: 50000
+                hideDelay: 5000
             });
         }
     }

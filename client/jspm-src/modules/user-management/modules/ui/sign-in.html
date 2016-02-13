@@ -10,7 +10,7 @@
     <div class="sign-in-state" ng-switch-when="selection" layout="column">
         <md-whiteframe class="md-whiteframe-2dp" style="margin: 8px; border-radius: 3px;">
 
-            <form name="$ctrl.passwordlessForm" layout="row" layout-align="start center" layout-padding>
+            <form name="$ctrl.emailSignInForm" layout="row" layout-align="start center" layout-padding>
                 <div layout="column"><span style="font-size:14px">{{'AUTHENTICATE_REQUEST_PREFIX' | translate}}
         {{'EMAIL_LONG' | translate}}
                 </span>
@@ -19,7 +19,7 @@
                         <input name="email" style="min-width: 230px;" ng-model="$ctrl.email" type="email" required
                                ng-keyup="$event.keyCode == 13 && $ctrl.signInWithEmail()"
                                placeholder="{{'EMAIL' | translate}}">
-                        <div ng-messages="$ctrl.passwordlessForm.email.$error">
+                        <div ng-messages="$ctrl.emailSignInForm.email.$error">
                             <div ng-message="required">{{'REQUIRED_FIELD' | translate}}</div>
                             <div ng-message="email">{{'INVALID_EMAIL_FIELD' | translate}}</div>
                             <div ng-message="server">{{'SERVER_ERR_FIELD' | translate}}</div>

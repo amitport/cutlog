@@ -16,7 +16,7 @@ initializeDbConnection();
 import renderView from './renderView';
 import Router from 'koa-router';
 const indexRouter = Router();
-indexRouter.get(['/', '/index.html'], async (ctx) => {
+indexRouter.get(['/', '/index.html', '/users/me'], async (ctx) => {
     ctx.body = await renderView('index.html.ejs', {env: process.env.NODE_ENV});
     ctx.type = 'text/html';
 });

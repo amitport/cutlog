@@ -10,8 +10,8 @@ module.component('signIn',
             this.signInWithAuthProvider = user.signInWithAuthProvider.bind(user);
 
             this.signInWithEmail = function () {
-                if (this.passwordlessForm.$invalid) {
-                    this.passwordlessForm.email.$setTouched();
+                if (this.emailSignInForm.$invalid) {
+                    this.emailSignInForm.email.$setTouched();
                     return;
                 }
 
@@ -20,15 +20,15 @@ module.component('signIn',
                         this.state = 'emailSent';
                     })
                     .catch(() => {
-                        this.passwordlessForm.email.$setValidity('server', false);
+                        this.emailSignInForm.email.$setValidity('server', false);
 
-                        const formFieldWatcher = $scope.$watch(() => this.passwordlessForm.email.$viewValue, (newValue, oldValue) => {
+                        const formFieldWatcher = $scope.$watch(() => this.emailSignInForm.email.$viewValue, (newValue, oldValue) => {
                             if (newValue === oldValue) {
                                 return;
                             }
 
                             // clean up the server error
-                            this.passwordlessForm.email.$setValidity('server', true);
+                            this.emailSignInForm.email.$setValidity('server', true);
 
                             // clean up form field watcher
                             formFieldWatcher();
