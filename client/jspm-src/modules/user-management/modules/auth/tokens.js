@@ -1,35 +1,26 @@
 import module from './base';
 import moment from 'moment';
 
-module.provider(`${module.name}.tokens`,
+module.provider('auth.tokens',
     ['$httpProvider', function ($httpProvider) {
-        $httpProvider.interceptors.push([`${module.name}.tokens`, function (tokens) {
+        $httpProvider.interceptors.push(['auth.tokens', function (tokens) {
             return {
                 request: function (config) {
-                    //noinspection JSUnresolvedVariable
                     if (!config.requireAuth) {
                         return config;
                     }
 
                     return tokens.refresh().then(() => {
-                        config.headers['X-Access-Token'] = tokens.access;
+                        config.headers['x-access-token'] = tokens.access;
                         return config;
                     });
-                },
-                responseError: function (rejection) {
-                    if (rejection.status === 401) {
-                        // user is does not really have the correct credentials
-                        // make sure the authentication is clear
-                        tokens.clear();
-                    }
-                    return Promise.reject(rejection);
                 }
             };
         }]);
 
         return {
-            $get: ['$injector', '$window', '$rootScope', '$timeout', '$log',
-                function ($injector, $window, $rootScope, $timeout, $log) {
+            $get: ['$injector', '$window', '$log',
+                function ($injector, $window, $log) {
                     let ongoingAuthentication;
                     let authenticateCanceler;
                     let tokens;
@@ -41,42 +32,29 @@ module.provider(`${module.name}.tokens`,
                             moment.unix(decodedAccessToken.exp) : false;
                     }
 
-                    let $http;
-                    $timeout(function () {
-                        // delay $http load in order to resolve circular dependency ($http uses auth.refresh in our interceptor)
-                        $http = $injector.get('$http');
-
-                        // delay local storage load in order to give a chance to others to register to setTokenEvent
-                        if ($window.localStorage.hasOwnProperty('authTokens')) {
-                            tokens = JSON.parse($window.localStorage.authTokens);
-                            calcAccessExpiry(); // TODO maybe just save the expiry in local storage
-                            $rootScope.$broadcast('auth.set', tokens);
-                        }
-                    });
-
+                    // delay $http load in order to resolve circular dependency ($http uses tokens.refresh in our interceptor)
+                    let _$http; function get$http() {return _$http || (_$http = $injector.get('$http'));}
 
                     return {
                         get access() {
                             if (tokens != null)
                                 return tokens.access;
                         },
-                        set(data) {
+                        set(_tokens) {
                             if (!tokens) {
                                 // we are not currently authenticated
-                                tokens = data;
+                                tokens = _tokens;
                             } else {
                                 // this is just an access refresh
                                 //noinspection JSUnusedAssignment
-                                tokens.access = data.access;
+                                tokens.access = _tokens.access;
                             }
 
                             calcAccessExpiry();
-                            $window.localStorage.authTokens = JSON.stringify(tokens);
-                            $rootScope.$broadcast('auth.set', tokens);
                         },
                         authenticate(credentials = {refresh: tokens.refresh}) {
                             //noinspection JSUnusedAssignment
-                            return ongoingAuthentication = $http.post('/auth/request', credentials,
+                            return ongoingAuthentication = get$http().post('/auth/request', credentials,
                                 {
                                     timeout: new Promise((resolve) => {
                                         authenticateCanceler = resolve;
@@ -98,11 +76,9 @@ module.provider(`${module.name}.tokens`,
                             if (tokens) {
                                 if (tokens.hasOwnProperty('refresh')) {
                                     //noinspection JSUnusedAssignment
-                                    $http.post('/auth/revoke', {refresh: tokens.refresh});
+                                    get$http().post('/auth/revoke', {refresh: tokens.refresh});
                                 }
                                 tokens = false;
-                                delete $window.localStorage.authTokens;
-                                $rootScope.$broadcast('auth.cleared');
                             }
                         },
                         refresh() {

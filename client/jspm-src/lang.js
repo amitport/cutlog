@@ -16,7 +16,7 @@ module.config(['$translateProvider', function ($translateProvider) {
             NOT_SUPPORTED: 'not supported',
             REQUIRED_FIELD: 'required field',
             MAX_LENGTH_12: 'please use no more than 12 characters',
-            USERNAME_PATTERN: 'please use only english characters, hyphens (-) or spaces as delimeters, and optionally 1 or 2 numbers at the end',
+            USERNAME_PATTERN: 'please use only english characters, hyphens (-) or spaces as delimiters, and optionally 1 or 2 digits at the end',
             INVALID_EMAIL_FIELD: 'invalid email format',
             USERNAME_CONFLICT: 'the name is taken, try another one',
             SERVER_ERR_FIELD: 'submission failed, please try again later',
@@ -31,7 +31,9 @@ module.config(['$translateProvider', function ($translateProvider) {
             EDIT_USER_PROFILE: 'Edit profile',
             SIGN_OUT: 'Sign out',
             REGISTER: 'Welcome!',
-            FINISH: 'Finish'
+            FINISH: 'Finish',
+            SIGNED_IN_AS: 'Signed in as',
+            SIGN_OUT_SUCCESS: 'Signed out successfully'
         })
         .translations('he', {
             SIGN_IN: 'כניסה',
@@ -46,7 +48,7 @@ module.config(['$translateProvider', function ($translateProvider) {
             NOT_SUPPORTED: 'לא נתמך',
             REQUIRED_FIELD: 'שדה נדרש',
             MAX_LENGTH_12: 'בבקשה השתמש בלא יותר מ-12 תווים',
-            USERNAME_PATTERN: '',
+            USERNAME_PATTERN: 'שם המשתמש חייב להיות באנגלית, ניתן להשתמש ברווח או מקף ולסיים עם עד 2 ספרות',
             INVALID_EMAIL_FIELD: 'הכתובת אינה תקינה',
             SERVER_ERR_FIELD: 'השליחה נכשלה, נא נסה מאוחר יותר',
             USERNAME_CONFLICT: 'השם תפוס, נסה אחד אחר',
@@ -61,7 +63,9 @@ module.config(['$translateProvider', function ($translateProvider) {
             EDIT_USER_PROFILE: 'עריכת פרופיל',
             SIGN_OUT: 'יציאה',
             REGISTER: 'ברוך הבא!',
-            FINISH: 'סיים'
+            FINISH: 'סיים',
+            SIGNED_IN_AS: 'הנך מחובר כ-',
+            SIGN_OUT_SUCCESS: 'יצאת בהצלחה'
         })
         .registerAvailableLanguageKeys(['en', 'he'])
         .determinePreferredLanguage()

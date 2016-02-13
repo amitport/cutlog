@@ -4,13 +4,11 @@ import 'angular-material';
 import 'angular-material/angular-material.css!';
 import '../../../../material-icons.css!';
 
-import 'angular-route';
 import 'angular-translate';
 
-import userModule from '../user/index';
+import authModule from '../auth/index';
 
 export default angular.module('ui',
     ['ngMaterial',
-        'ngRoute',
         'pascalprecht.translate',
-        userModule]);
+        authModule]);

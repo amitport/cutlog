@@ -1,8 +1,7 @@
 import module from './base';
 
 import './tokens';
-import './signIn';
-import './register';
+import './user';
 import './emailTokenRoute';
 
 export default module.name;

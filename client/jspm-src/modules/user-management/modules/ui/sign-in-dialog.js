@@ -2,7 +2,7 @@ import module from './base';
 
 import './sign-in.js';
 
-module.factory('signInDialog', ['$mdDialog', function ($mdDialog) {
+module.factory('ui.signInDialog', ['$mdDialog', function ($mdDialog) {
     return {
         open(targetEvent) {
             //noinspection JSUnresolvedVariable
@@ -11,15 +11,13 @@ module.factory('signInDialog', ['$mdDialog', function ($mdDialog) {
                     targetEvent: targetEvent,
                     clickOutsideToClose: true,
                     templateUrl: `${__moduleName.replace(/[^\/]*$/, '')}sign-in-dialog.html`,
-                    controller: 'signInDialogController',
-                    controllerAs: '$ctrl'
+                    controllerAs: '$ctrl',
+                    controller: ['$mdDialog', function ($mdDialog) {
+                        this.cancel = () => {
+                            $mdDialog.cancel();
+                        }
+                    }]
                 });
         }
-    }
-}]);
-
-module.controller('signInDialogController', ['$mdDialog', function ($mdDialog) {
-    this.cancel = () => {
-        $mdDialog.cancel();
     }
 }]);

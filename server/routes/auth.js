@@ -18,8 +18,6 @@ import User from '../models/user';
 // keep email tokens for an hour check every 10 minutes for deleting expired tokens
 const emailTokenCache = new NodeCache({stdTTL: 3600, checkperiod: 600});
 
-emailTokenCache.set('XchxXNYkDuE2emk3EKzXKF', {email: 'amit@test.com', path: '/'})
-
 const auth = Router();
 
 auth.post('/api/auth/signInWithEmail', bodyParser, async (ctx) => {
