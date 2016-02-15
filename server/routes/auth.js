@@ -34,7 +34,7 @@ auth.get('/api/auth/google', async (ctx) => {
             code: ctx.query.code,
             client_id: '162817514604-3flbnsg9cali5j0mrnqjmgi2h6keo7uk.apps.googleusercontent.com',
             client_secret: config.get('auth.googleSecret'),
-            redirect_uri: 'http://localhost:3000/api/auth/google',
+            redirect_uri: `${process.env.HOST_URL}/api/auth/google`,
             grant_type: 'authorization_code'
         },
         json: true
