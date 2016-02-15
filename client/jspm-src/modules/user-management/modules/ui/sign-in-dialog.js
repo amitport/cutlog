@@ -1,4 +1,5 @@
 import module from './base';
+import template from './sign-in-dialog.html!text';
 
 import './sign-in.js';
 
@@ -10,7 +11,7 @@ module.factory('ui.signInDialog', ['$mdDialog', function ($mdDialog) {
                 {
                     targetEvent: targetEvent,
                     clickOutsideToClose: true,
-                    templateUrl: `${__moduleName.replace(/[^\/]*$/, '')}sign-in-dialog.html`,
+                    template,
                     controllerAs: '$ctrl',
                     controller: ['$mdDialog', '$scope',
                                 function ($mdDialog, $scope) {
