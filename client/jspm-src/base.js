@@ -1,5 +1,5 @@
 import 'angular-material/angular-material.css!';
-import './material-icons.css!';
+import 'material-design-icons/iconfont/material-icons.css!';
 import './rtl-fix.css!';
 
 import angular from 'angular';

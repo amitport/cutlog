@@ -3,7 +3,7 @@ import 'angular-route';
 
 import 'angular-material';
 import 'angular-material/angular-material.css!';
-import '../../../../material-icons.css!';
+import 'material-design-icons/iconfont/material-icons.css!';
 
 import 'angular-translate';
 
