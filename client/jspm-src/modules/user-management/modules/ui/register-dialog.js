@@ -1,5 +1,6 @@
 import module from './base';
 import './toast';
+import template from './register-dialog.html!text';
 
 module.factory('ui.registerDialog', ['$mdDialog', function ($mdDialog) {
     return {
@@ -7,7 +8,7 @@ module.factory('ui.registerDialog', ['$mdDialog', function ($mdDialog) {
             //noinspection JSUnresolvedVariable
             $mdDialog.show(
                 {
-                    templateUrl: `${__moduleName.replace(/[^\/]*$/, '')}register-dialog.html`,
+                    template,
                     controllerAs: '$ctrl',
                     locals: {authToken},
                     controller: ['$scope', '$mdDialog', 'auth.user', 'authToken',

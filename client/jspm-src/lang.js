@@ -1,4 +1,4 @@
-import {module} from './module';
+import module from './base';
 import './lang.he.css!';
 
 module.config(['$translateProvider', function ($translateProvider) {

@@ -1,4 +1,4 @@
-import {module} from './module';
+import module from './base';
 
 module
 .config(['$routeProvider', function ($routeProvider) {

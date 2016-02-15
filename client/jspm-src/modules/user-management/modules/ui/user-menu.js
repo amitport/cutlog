@@ -1,11 +1,11 @@
 import module from './base';
 import './sign-in-dialog.js';
+import template from './user-menu.html!text';
 
 //noinspection JSUnresolvedVariable
 module.component('userMenu',
     {
-    templateUrl:
-        `${__moduleName.replace(/[^\/]*$/, '')}user-menu.html`,
+    template,
     controller: ['$location', 'ui.signInDialog', 'auth.user', function($location, signInDialog, user) {
         return {
             user,

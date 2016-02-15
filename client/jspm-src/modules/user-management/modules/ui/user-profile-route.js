@@ -1,8 +1,9 @@
 import module from './base';
+import template from './user-profile-route.html!text';
 
 module.config(['$routeProvider', ($routeProvider) => {
     $routeProvider.when('/users/me', {
-        template: '<table ng-show="$ctrl.user.isSignedIn"><tr><th>user | json</th></tr><tr><td>{{$ctrl.user | json}}</td></tr></table>',
+        template,
         controllerAs: '$ctrl',
         controller: ['auth.user', 'ui.signInDialog', '$rootScope', '$location',
             function (user, signInDialog, $rootScope, $location) {
