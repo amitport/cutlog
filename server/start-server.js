@@ -20,6 +20,11 @@ indexRouter.get(['/', '/index.html', '/users/me'], async (ctx) => {
     ctx.body = await renderView('index.html.ejs', {env: process.env.NODE_ENV});
     ctx.type = 'text/html';
 });
+indexRouter.get('/provider-popup-redirect.html', async (ctx) => {
+    ctx.body = await renderView('provider-popup-redirect.html.ejs', {env: process.env.NODE_ENV});
+    ctx.type = 'text/html';
+});
+
 app.use(indexRouter.routes());
 import auth from './routes/auth';
 app.use(auth.routes());

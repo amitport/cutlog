@@ -1,5 +1,8 @@
 {
 	"mongo": {
 		"uri": "mongodb://localhost/cutlog-dev"
+	},
+	"auth": {
+		"googleSecret": "4-0n4VuTu6Fkvr1f0HGJ_d2K"
 	}
 }

@@ -15,7 +15,7 @@ module.component('signIn',
                     return;
                 }
 
-                user.signInWithEmail({email: this.email, path: '/'})
+                user.signInWithEmail(this.email)
                     .then(() => {
                         this.state = 'emailSent';
                     })

@@ -15,9 +15,11 @@ users.get('/api/users/me', ensureUser, async (ctx) => {
 });
 
 users.post('/api/users/actions/register', ensureAuth, bodyParser, async (ctx) => {
-    var user = new User();
+    const user = new User();
     user.username = ctx.request.body.username;
-    user.email = ctx.state.auth.email;
+    const auth = ctx.state.auth;
+    user[auth.method] = ctx.state.auth[auth.method];
+
     try {
         ctx.body = {access: encodeUser(await user.trySave())};
     } catch(err) {

@@ -12,8 +12,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         lowercase: true,
         validate: validators.isEmail(),
-        unique: true,
-        required: true
+        unique: true
     },
     avatarImageUrl: {
         type: String,
@@ -24,8 +23,9 @@ const UserSchema = new mongoose.Schema({
         enum: ['user', 'admin'],
         default: 'user'
     },
-    linkedAuthProviders: {
-        google: String
+    google: {
+        type: String,
+        unique: true
     }
 });
 UserSchema.plugin(uniqueValidator);

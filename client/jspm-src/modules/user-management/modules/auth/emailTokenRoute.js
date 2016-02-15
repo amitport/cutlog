@@ -7,13 +7,12 @@ module.config(['$routeProvider', ($routeProvider) => {
                     function ($rootScope, $location, $timeout, flash, user) {
             // the token was verified by the server which added auth info on flash.emailAuth
             $location.url(flash.emailAuth.originalPath).replace();
-            $timeout(() => { // give time to the new route to "sink in"
-                if (flash.emailAuth.isRegistered) {
-                    user.signIn({access: flash.emailAuth.accessToken});
-                } else {
-                    $rootScope.$broadcast('auth.new', flash.emailAuth.authToken);
-                }
-            });
+
+            if (flash.emailAuth.isRegistered) {
+                user.signIn({access: flash.emailAuth.accessToken});
+            } else {
+                $rootScope.$broadcast('auth.new', flash.emailAuth.authToken);
+            }
         }]
     });
 }]);

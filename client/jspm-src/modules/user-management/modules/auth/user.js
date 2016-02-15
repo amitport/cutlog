@@ -18,13 +18,15 @@ module.provider('auth.user',
         }]);
 
         return {
-            $get: ['$injector', '$log', '$rootScope', '$window', 'auth.tokens',
-                function ($injector, $log, $rootScope, $window, tokens) {
+            $get: ['$injector', '$log', '$q', '$rootScope', '$window', '$location', 'auth.tokens',
+                function ($injector, $log, $q, $rootScope, $window, $location, tokens) {
                     // delay $http load in order to resolve circular dependency ($http uses user.signOut in our interceptor)
                     let _$http; function get$http() {return _$http || (_$http = $injector.get('$http'));}
 
-                    return {
+
+                    const user = {
                         isSignedIn: false,
+                        signInPromise: $q.reject(),
                         register(authToken, registration) {
                             return get$http()
                                 .post('/api/users/actions/register',
@@ -37,7 +39,7 @@ module.provider('auth.user',
                         signIn(_tokens, skipAuthTokensStorage = false) {
                             tokens.set(_tokens);
 
-                            return get$http().get('/api/users/me', {requireAuth: true}).then(({data}) => {
+                            return this.signInPromise = get$http().get('/api/users/me', {requireAuth: true}).then(({data}) => {
                                 this.isSignedIn = true;
 
                                 USER_FIELDS.forEach((userField) => {
@@ -53,8 +55,10 @@ module.provider('auth.user',
                             });
                         },
                         signOut() {
+                            const wasSignedIn = this.isSignedIn;
                             tokens.clear();
 
+                            this.signInPromise = $q.reject();
                             this.isSignedIn = false;
 
                             USER_FIELDS.forEach((userField) => {
@@ -63,7 +67,9 @@ module.provider('auth.user',
 
                             delete $window.localStorage.authTokens;
 
-                            $rootScope.$broadcast('auth.sign-out');
+                            if (wasSignedIn) {
+                                $rootScope.$broadcast('auth.sign-out');
+                            }
                             $log.info('signed out');
                         },
                         attemptImmediateSignIn() {
@@ -72,14 +78,41 @@ module.provider('auth.user',
                                 this.signIn(JSON.parse($window.localStorage.authTokens), true);
                             }
                         },
-                        signInWithEmail(opt) {
-                            return get$http().post('/api/auth/signInWithEmail', opt);
+                        signInWithEmail(email) {
+                            return get$http().post('/api/auth/signInWithEmail', {email, path: $location.path()});
                         },
                         signInWithAuthProvider() {
-                            $log.info(arguments);
-                            // todo this
+                            const width = 452;
+                            const height = 633;
+                            $window.open(
+`https://accounts.google.com/o/oauth2/v2/auth?\
+client_id=162817514604-3flbnsg9cali5j0mrnqjmgi2h6keo7uk.apps.googleusercontent.com&\
+response_type=code&\
+scope=openid&\
+redirect_uri=${$window.location.origin}/api/auth/google`,
+
+'google_oauth2_login_popup',
+
+`width=${width},\
+height=${height},\
+left=${($window.screenX + (($window.outerWidth - width) / 2))},\
+top=${($window.screenY + (($window.outerHeight - height) / 2.5))}`);
                         }
                     };
+
+                    // listen for popup post-message new auth details
+                    $window.addEventListener('message', (event) =>{
+                        if ((event.origin || event.originalEvent.origin) !== $window.location.origin) return;
+
+                        const auth = event.data.auth;
+                        if (auth.isRegistered) {
+                            user.signIn({access: auth.accessToken});
+                        } else {
+                            $rootScope.$broadcast('auth.new', auth.authToken);
+                        }
+                    });
+
+                    return user;
                 }]
         }
     }]);

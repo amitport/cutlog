@@ -19,10 +19,51 @@ import User from '../models/user';
 const emailTokenCache = new NodeCache({stdTTL: 3600, checkperiod: 600});
 
 const auth = Router();
+import request from 'request';
+import b64url from 'base64-url';
+import Bluebird from 'bluebird';
+import config from 'config'
+
+const post = Bluebird.promisify(request.post);
+
+auth.get('/api/auth/google', async (ctx) => {
+    // Exchange authorization code for access token.
+    const googleTokens = (await post({
+        url: 'https://www.googleapis.com/oauth2/v4/token',
+        form: {
+            code: ctx.query.code,
+            client_id: '162817514604-3flbnsg9cali5j0mrnqjmgi2h6keo7uk.apps.googleusercontent.com',
+            client_secret: config.get('auth.googleSecret'),
+            redirect_uri: 'http://localhost:3000/api/auth/google',
+            grant_type: 'authorization_code'
+        },
+        json: true
+    })).body;
+
+    // decode the id (no need to verify since we just got this directly from google via https)
+    const decodedIdToken = JSON.parse(b64url.decode(googleTokens.id_token.split('.', 2)[1]));
+
+    const user = await User.findOne({google: decodedIdToken.sub}).select('role').lean().exec();
+
+    const googleAuth = {originalPath: '/'};
+    if (user != null) {
+        googleAuth.isRegistered = true;
+        googleAuth.accessToken = encodeUser(user);
+    } else {
+        googleAuth.isRegistered = false;
+        googleAuth.authToken = encodeAuth({method: 'google', google: decodedIdToken.sub})
+    }
+
+    ctx.body = await renderView('provider-popup-redirect.html.ejs', {
+            __flash: JSON.stringify({auth: googleAuth})
+        }
+    );
+    ctx.type = 'text/html';
+});
 
 auth.post('/api/auth/signInWithEmail', bodyParser, async (ctx) => {
     const {email, path} = ctx.request.body;
-    if (!validator.isIn(path, ['/']) // hard-code white-list redirect paths
+    if (!validator.isIn(path, ['/', '/users/me']) // hard-code white-list redirect paths
         || !validator.isEmail(email)) {
         ctx.throw(400);
     }

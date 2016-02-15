@@ -12,10 +12,15 @@ module.factory('ui.signInDialog', ['$mdDialog', function ($mdDialog) {
                     clickOutsideToClose: true,
                     templateUrl: `${__moduleName.replace(/[^\/]*$/, '')}sign-in-dialog.html`,
                     controllerAs: '$ctrl',
-                    controller: ['$mdDialog', function ($mdDialog) {
+                    controller: ['$mdDialog', '$scope',
+                                function ($mdDialog, $scope) {
                         this.cancel = () => {
                             $mdDialog.cancel();
-                        }
+                        };
+
+                        $scope.$on('auth.sign-in', () => {
+                            $mdDialog.hide();
+                        });
                     }]
                 });
         }

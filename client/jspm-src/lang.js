@@ -28,12 +28,13 @@ module.config(['$translateProvider', function ($translateProvider) {
             SAVE: 'save',
             NEW_USER_ACCOUNT: 'New User Account',
             OPEN_USER_MENU: 'Open user menu',
-            EDIT_USER_PROFILE: 'Edit profile',
+            USER_PROFILE: 'User profile',
             SIGN_OUT: 'Sign out',
             REGISTER: 'Welcome!',
             FINISH: 'Finish',
             SIGNED_IN_AS: 'Signed in as',
-            SIGN_OUT_SUCCESS: 'Signed out successfully'
+            SIGN_OUT_SUCCESS: 'Signed out successfully',
+            HOME: 'Home'
         })
         .translations('he', {
             SIGN_IN: 'כניסה',
@@ -60,12 +61,13 @@ module.config(['$translateProvider', function ($translateProvider) {
             SAVE: 'שמור',
             NEW_USER_ACCOUNT: 'חשבון משתמש חדש',
             OPEN_USER_MENU: 'פתיחת תפריט משתמש',
-            EDIT_USER_PROFILE: 'עריכת פרופיל',
+            USER_PROFILE: 'פרופיל משתמש',
             SIGN_OUT: 'יציאה',
             REGISTER: 'ברוך הבא!',
             FINISH: 'סיים',
             SIGNED_IN_AS: 'הנך מחובר כ-',
-            SIGN_OUT_SUCCESS: 'יצאת בהצלחה'
+            SIGN_OUT_SUCCESS: 'יצאת בהצלחה',
+            HOME: 'דף הבית'
         })
         .registerAvailableLanguageKeys(['en', 'he'])
         .determinePreferredLanguage()
