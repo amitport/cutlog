@@ -1,10 +1,10 @@
 import module from './base';
 
-module.factory('ap.eventualUser', ['$window', 'ap.user', 'ap.signInDialog', 'ap.registerDialog',
-    function ($window, user, signInDialog, registerDialog) {
+module.factory('ap.eventualUser', ['ap.user', 'ap.signInDialog', 'ap.registerDialog',
+    function (user, signInDialog, registerDialog) {
 
         let registrationDialogPromise = false;
-        const eventualUser = {
+        return {
             set(tokens) {
                 if (tokens.hasOwnProperty('auth')) {
                     return registrationDialogPromise = registerDialog.open(tokens.auth).finally(() => {registrationDialogPromise = false});
@@ -23,13 +23,4 @@ module.factory('ap.eventualUser', ['$window', 'ap.user', 'ap.signInDialog', 'ap.
                 });
             }
         };
-
-        // listen to response from auth provider pop-up
-        $window.addEventListener('message', (event) => {
-            if ((event.origin || event.originalEvent.origin) !== $window.location.origin) return;
-
-            eventualUser.set(event.data.tokens);
-        });
-
-        return eventualUser;
     }]);

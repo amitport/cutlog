@@ -28,7 +28,7 @@ const post = Bluebird.promisify(request.post);
 
 auth.get('/api/auth/google', async (ctx) => {
     // Exchange authorization code for access token.
-    const googleTokens = (await post({
+    const googleTokensResponse = (await post({
         url: 'https://www.googleapis.com/oauth2/v4/token',
         form: {
             code: ctx.query.code,
@@ -38,8 +38,14 @@ auth.get('/api/auth/google', async (ctx) => {
             grant_type: 'authorization_code'
         },
         json: true
-    })).body;
+    }));
+    if (googleTokensResponse.statusCode != 200) {
+        console.log('unexpected return status from google ' + googleTokensResponse.status);
+        console.log(googleTokensResponse.body);
+        ctx.throw(500);
+    }
 
+    const googleTokens = googleTokensResponse.body;
     // decode the id (no need to verify since we just got this directly from google via https)
     const decodedIdToken = JSON.parse(b64url.decode(googleTokens.id_token.split('.', 2)[1]));
 
