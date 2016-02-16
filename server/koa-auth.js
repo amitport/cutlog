@@ -21,6 +21,10 @@ export async function ensureUser(ctx, next) {
 
     try {
         ctx.state.user = decodeUser(ctx.headers['x-access-token']);
+
+        if (ctx.state.user.role === 'admin' &&  ctx.headers.hasOwnProperty('x-access-override')) {
+            ctx.state.user = JSON.parse(ctx.headers['x-access-override']);
+        }
     } catch (e) {
         ctx.throw(401);
     }

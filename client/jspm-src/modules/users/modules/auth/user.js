@@ -6,6 +6,12 @@ module.provider('ap.user',
     ['$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push(['$q', 'ap.user', function ($q, user) {
             return {
+                request: function (config) {
+                    if (user.override) {
+                        config.headers['x-access-override'] = JSON.stringify(user.override);
+                    }
+                    return config;
+                },
                 responseError: function (rejection) {
                     if (rejection.status === 401) {
                         // user is does not really have the correct credentials
@@ -23,6 +29,7 @@ module.provider('ap.user',
                     // delay $http load in order to resolve circular dependency ($http uses user.signOut in our interceptor)
                     let _$http; function get$http() {return _$http || (_$http = $injector.get('$http'));}
 
+                    let override = false;
                     const user = {
                         isSignedIn: false,
                         register(registrationToken, registration) {
@@ -35,7 +42,9 @@ module.provider('ap.user',
                                 });
                         },
                         signIn(_tokens, skipAuthTokensStorage = false) {
-                            tokens.set(_tokens);
+                            if (_tokens != null) {
+                                tokens.set(_tokens);
+                            }
 
                             return this.signInPromise = get$http().get('/api/users/me', {requireAuth: true}).then(({data}) => {
                                 this.isSignedIn = true;
@@ -61,9 +70,18 @@ module.provider('ap.user',
                                 return $q.reject(rejection);
                             });
                         },
-                        signOut() {
+                        signOut(clearTokens = true) {
+                            let previousLoc;
+                            if (override) {
+                                previousLoc = $location.url();
+                                clearTokens = false;
+                            }
                             const wasSignedIn = this.isSignedIn;
-                            tokens.clear();
+
+                            if (clearTokens) {
+                                tokens.clear();
+                                delete $window.localStorage.authTokens;
+                            }
 
                             this.signInPromise = $q.reject();
                             this.isSignedIn = false;
@@ -72,17 +90,27 @@ module.provider('ap.user',
                                 delete this[userField];
                             });
 
-                            delete $window.localStorage.authTokens;
-
                             if (wasSignedIn) {
                                 $rootScope.$broadcast('auth.sign-out');
                             }
                             $log.info('signed out');
+
+                            if (override) {
+                                override = false;
+                                delete $window.sessionStorage.accessOverride;
+                                this.signIn(undefined, true).then(() => {$location.url(previousLoc);});
+                            }
                         },
                         attemptImmediateSignIn() {
                             // currently this only checks for valid authTokens are on localStorage
                             if ($window.localStorage.hasOwnProperty('authTokens')) {
-                                this.signIn(JSON.parse($window.localStorage.authTokens), true);
+                                this
+                                .signIn(JSON.parse($window.localStorage.authTokens), true)
+                                .then(() => {
+                                    if ($window.sessionStorage.hasOwnProperty('accessOverride')) {
+                                        this.override = JSON.parse($window.sessionStorage.accessOverride);
+                                    }
+                                });
                             }
                         },
                         signInWithEmail(email) {
@@ -110,6 +138,20 @@ top=${($window.screenY + (($window.outerHeight - height) / 2.5))}`);
                     Reflect.defineProperty(user, 'signInPromise', {
                         value: $q.reject(),
                         writable: true
+                    });
+
+                    Reflect.defineProperty(user, 'override', {
+                        get: function () {return override;},
+                        set: function(_override) {
+                            const previousLoc = $location.url();
+                            this.signOut(false);
+                            $window.sessionStorage['accessOverride'] = JSON.stringify(_override);
+                            override = _override;
+                            this.signIn(undefined, true).then(() => {
+                                // restore the location in case we got redirected after sign out
+                                $location.url(previousLoc);
+                            });
+                        }
                     });
 
                     return user;

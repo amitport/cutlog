@@ -1,12 +1,11 @@
-<table ng-show="$ctrl.user.isSignedIn">
+<table dir="ltr" ng-show="$ctrl.user.isSignedIn">
     <tr>
         <th>user | json</th>
     </tr>
     <tr>
-        <td dir="ltr">{{$ctrl.user | json}}</td>
+        <td><pre>{{$ctrl.user | json}}</pre></td>
     </tr>
 </table>
 <br>
-<div ng-show="$ctrl.user.role === 'admin'">
-    I'm admin
-</div>
+
+<users-list ng-if="$ctrl.user.role === 'admin'" user="$ctrl.user"></users-list>
