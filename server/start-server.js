@@ -2,6 +2,10 @@ import Koa from 'koa';
 import convert from 'koa-convert';
 import serve from 'koa-static';
 
+import config from 'config';
+
+const log = config.get('log');
+
 const app = new Koa();
 
 app.use(convert(serve('../client/jspm-src')));  //TODO enable this only in development and include sfx version in production
@@ -32,5 +36,5 @@ import users from './routes/users';
 app.use(users.routes());
 
 app.listen(process.env.PORT || 3000, function () {
-    console.log("opened server on %j", this.address().port);
+    log.info("http server listenting on %j", this.address().port);
 });

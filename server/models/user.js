@@ -12,7 +12,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         lowercase: true,
         validate: validators.isEmail(),
-        unique: true
+        index: {unique: true, sparse: true}
     },
     avatarImageUrl: {
         type: String,
@@ -25,7 +25,7 @@ const UserSchema = new mongoose.Schema({
     },
     google: {
         type: String,
-        unique: true
+        index: {unique: true, sparse: true}
     }
 });
 UserSchema.plugin(uniqueValidator);
