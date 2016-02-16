@@ -1,10 +1,10 @@
 import module from './base';
 
-const USER_FIELDS = ['username'];
+const USER_FIELDS = ['username', 'role'];
 
-module.provider('auth.user',
+module.provider('ap.user',
     ['$httpProvider', function ($httpProvider) {
-        $httpProvider.interceptors.push(['auth.user', function (user) {
+        $httpProvider.interceptors.push(['$q', 'ap.user', function ($q, user) {
             return {
                 responseError: function (rejection) {
                     if (rejection.status === 401) {
@@ -12,28 +12,26 @@ module.provider('auth.user',
                         // make sure the authentication is clear
                         user.signOut();
                     }
-                    return Promise.reject(rejection);
+                    return $q.reject(rejection);
                 }
             };
         }]);
 
         return {
-            $get: ['$injector', '$log', '$q', '$rootScope', '$window', '$location', 'auth.tokens',
+            $get: ['$injector', '$log', '$q', '$rootScope', '$window', '$location', 'ap.tokens',
                 function ($injector, $log, $q, $rootScope, $window, $location, tokens) {
                     // delay $http load in order to resolve circular dependency ($http uses user.signOut in our interceptor)
                     let _$http; function get$http() {return _$http || (_$http = $injector.get('$http'));}
 
-
                     const user = {
                         isSignedIn: false,
-                        signInPromise: $q.reject(),
-                        register(authToken, registration) {
+                        register(registrationToken, registration) {
                             return get$http()
                                 .post('/api/users/actions/register',
                                     registration,
-                                    {headers: {'x-auth-token': authToken}})
+                                    {headers: {'x-auth-token': registrationToken}})
                                 .then(({data}) => {
-                                    this.signIn(data);
+                                    return this.signIn(data);
                                 });
                         },
                         signIn(_tokens, skipAuthTokensStorage = false) {
@@ -52,6 +50,15 @@ module.provider('auth.user',
 
                                 $rootScope.$broadcast('auth.sign-in');
                                 $log.info('signed in as ' + this.username);
+
+                                return this;
+                            }).catch((rejection) => {
+                                if (rejection.status === 404) {
+                                    $log.info('could not find this user - signing out');
+                                    this.signOut();
+                                }
+
+                                return $q.reject(rejection);
                             });
                         },
                         signOut() {
@@ -100,16 +107,9 @@ top=${($window.screenY + (($window.outerHeight - height) / 2.5))}`);
                         }
                     };
 
-                    // listen for popup post-message new auth details
-                    $window.addEventListener('message', (event) =>{
-                        if ((event.origin || event.originalEvent.origin) !== $window.location.origin) return;
-
-                        const auth = event.data.auth;
-                        if (auth.isRegistered) {
-                            user.signIn({access: auth.accessToken});
-                        } else {
-                            $rootScope.$broadcast('auth.new', auth.authToken);
-                        }
+                    Reflect.defineProperty(user, 'signInPromise', {
+                        value: $q.reject(),
+                        writable: true
                     });
 
                     return user;
@@ -117,7 +117,7 @@ top=${($window.screenY + (($window.outerHeight - height) / 2.5))}`);
         }
     }]);
 
-module.run(['auth.user', function (user) {
+module.run(['ap.user', function (user) {
     // try and sign in immediately
     user.attemptImmediateSignIn();
 }]);

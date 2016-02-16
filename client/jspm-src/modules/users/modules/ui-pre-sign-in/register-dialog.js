@@ -1,28 +1,26 @@
 import module from './base';
-import './toast';
 import template from './register-dialog.html!text';
 
-module.factory('ui.registerDialog', ['$mdDialog', function ($mdDialog) {
+module.factory('ap.registerDialog', ['$mdDialog', function ($mdDialog) {
     return {
-        open(authToken) {
-            //noinspection JSUnresolvedVariable
-            $mdDialog.show(
+        open(registrationToken) {
+            return $mdDialog.show(
                 {
                     template,
                     controllerAs: '$ctrl',
-                    locals: {authToken},
-                    controller: ['$scope', '$mdDialog', 'auth.user', 'authToken',
-                        function ($scope, $mdDialog, user, authToken) {
+                    controller: ['$scope', '$mdDialog', 'ap.user',
+                        function ($scope, $mdDialog, user) {
+                            $scope.$on('auth.sign-in', () => {
+                                $mdDialog.hide(user);
+                            });
+
                             this.register = (username) => {
                                 if (this.registrationForm.$invalid) {
                                     this.registrationForm.username.$setTouched();
                                     return;
                                 }
 
-                                user.register(authToken, {username})
-                                    .then(() => {
-                                        $mdDialog.hide();
-                                    })
+                                user.register(registrationToken, {username})
                                     .catch((rejection) => {
                                         const validationError = (rejection.status === 409) ? 'conflict' : 'server';
 
@@ -48,10 +46,4 @@ module.factory('ui.registerDialog', ['$mdDialog', function ($mdDialog) {
                 });
         }
     }
-}]);
-
-module.run(['$rootScope', 'ui.registerDialog', function ($rootScope, registerDialog) {
-    $rootScope.$on('auth.new', (event, authToken) => {
-        registerDialog.open(authToken);
-    })
 }]);

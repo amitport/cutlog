@@ -1,6 +1,6 @@
 import './user-menu';
-import './register-dialog';
 import './user-profile-route';
+import './toast';
 
 import module from './base';
 

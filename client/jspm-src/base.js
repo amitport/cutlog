@@ -11,7 +11,7 @@ import 'angular-translate';
 import 'angular-translate-storage-local';
 import 'angular-translate-storage-cookie';
 
-import userManagementModule from './modules/user-management/index';
+import usersModule from './modules/users/index';
 
 export default angular.module('cutlog', [
-    'ngMaterial', 'ngCookies', 'ngMessages', 'ngRoute', 'pascalprecht.translate', userManagementModule]);
+    'ngMaterial', 'ngCookies', 'ngMessages', 'ngRoute', 'pascalprecht.translate', usersModule]);

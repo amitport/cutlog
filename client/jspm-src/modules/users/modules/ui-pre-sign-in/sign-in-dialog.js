@@ -3,24 +3,23 @@ import template from './sign-in-dialog.html!text';
 
 import './sign-in.js';
 
-module.factory('ui.signInDialog', ['$mdDialog', function ($mdDialog) {
+module.factory('ap.signInDialog', ['$mdDialog', function ($mdDialog) {
     return {
         open(targetEvent) {
-            //noinspection JSUnresolvedVariable
             return $mdDialog.show(
                 {
                     targetEvent: targetEvent,
                     clickOutsideToClose: true,
                     template,
                     controllerAs: '$ctrl',
-                    controller: ['$mdDialog', '$scope',
-                                function ($mdDialog, $scope) {
+                    controller: ['$mdDialog', '$scope', 'ap.user',
+                                function ($mdDialog, $scope, user) {
                         this.cancel = () => {
                             $mdDialog.cancel();
                         };
 
                         $scope.$on('auth.sign-in', () => {
-                            $mdDialog.hide();
+                            $mdDialog.hide(user);
                         });
                     }]
                 });

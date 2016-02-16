@@ -1,11 +1,10 @@
 import module from './base';
 import template from './sign-in.html!text';
 
-//noinspection JSUnresolvedVariable
 module.component('signIn',
     {
         template,
-        controller: ['$scope', 'auth.user', function ($scope, user) {
+        controller: ['$scope', 'ap.user', function ($scope, user) {
             this.state = 'selection';
 
             this.signInWithAuthProvider = user.signInWithAuthProvider.bind(user);

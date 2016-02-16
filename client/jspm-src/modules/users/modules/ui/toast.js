@@ -21,7 +21,7 @@ module.factory('ui.toast', ['$mdToast', '$window', function ($mdToast, $window) 
     }
 }]);
 
-module.run(['$rootScope', 'auth.user', 'ui.toast', function($rootScope, user, toast) {
+module.run(['$rootScope', 'ap.user', 'ui.toast', function($rootScope, user, toast) {
     $rootScope.$on('auth.sign-in', () => {
         toast.show(`{{'SIGNED_IN_AS' | translate}} <strong style="color: #F4F459;">${user.username}</strong>`);
     });

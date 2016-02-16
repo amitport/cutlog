@@ -45,17 +45,14 @@ auth.get('/api/auth/google', async (ctx) => {
 
     const user = await User.findOne({google: decodedIdToken.sub}).select('role').lean().exec();
 
-    const googleAuth = {originalPath: '/'};
-    if (user != null) {
-        googleAuth.isRegistered = true;
-        googleAuth.accessToken = encodeUser(user);
-    } else {
-        googleAuth.isRegistered = false;
-        googleAuth.authToken = encodeAuth({method: 'google', google: decodedIdToken.sub})
+    const tokens = (user != null) ? {
+        access: encodeUser(user)
+    } : {
+        auth: encodeAuth({method: 'google', google: decodedIdToken.sub})
     }
 
     ctx.body = await renderView('provider-popup-redirect.html.ejs', {
-            __flash: JSON.stringify({auth: googleAuth})
+            __flash: JSON.stringify({tokens})
         }
     );
     ctx.type = 'text/html';
@@ -125,17 +122,14 @@ auth.get('/et/:et', async (ctx) => {
 
     const user = await User.findOne({email: storedValue.email}).select('role').lean().exec();
 
-    const emailAuth = {originalPath: storedValue.path};
-    if (user != null) {
-        emailAuth.isRegistered = true;
-        emailAuth.accessToken = encodeUser(user);
-    } else {
-        emailAuth.isRegistered = false;
-        emailAuth.authToken = encodeAuth({method: 'email', email: storedValue.email})
-    }
+    const tokens = (user != null) ? {
+        access: encodeUser(user)
+    } : {
+        auth: encodeAuth({method: 'email', email: storedValue.email})
+    };
 
     ctx.body = await renderView('index.html.ejs', {
-            __flash: JSON.stringify({emailAuth}),
+            __flash: JSON.stringify({tokens, originalPath: storedValue.path}),
             env: process.env.NODE_ENV
         }
     );

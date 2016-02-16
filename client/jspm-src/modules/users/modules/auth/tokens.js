@@ -1,9 +1,9 @@
 import module from './base';
 import moment from 'moment';
 
-module.provider('auth.tokens',
+module.provider('ap.tokens',
     ['$httpProvider', function ($httpProvider) {
-        $httpProvider.interceptors.push(['auth.tokens', function (tokens) {
+        $httpProvider.interceptors.push(['ap.tokens', function (tokens) {
             return {
                 request: function (config) {
                     if (!config.requireAuth) {
@@ -19,15 +19,15 @@ module.provider('auth.tokens',
         }]);
 
         return {
-            $get: ['$injector', '$window', '$log',
-                function ($injector, $window, $log) {
+            $get: ['$injector', '$window', '$log', '$q',
+                function ($injector, $window, $log, $q) {
                     let ongoingAuthentication;
                     let authenticateCanceler;
                     let tokens;
                     let accessExpiry;
                     function calcAccessExpiry() {
                         // * decoding assumes no base64 padding which assumes it is generated from byte number that is divisible by 3
-                        const decodedAccessToken = JSON.parse($window.atob(tokens.access.split('.')[1].replace(/-/g, '+').replace(/_/g, '/')));
+                        const decodedAccessToken = JSON.parse($window.atob(tokens.access.split('.', 2)[1].replace(/-/g, '+').replace(/_/g, '/')));
                         accessExpiry = (decodedAccessToken.hasOwnProperty('exp')) ?
                             moment.unix(decodedAccessToken.exp) : false;
                     }
@@ -46,17 +46,15 @@ module.provider('auth.tokens',
                                 tokens = _tokens;
                             } else {
                                 // this is just an access refresh
-                                //noinspection JSUnusedAssignment
                                 tokens.access = _tokens.access;
                             }
 
                             calcAccessExpiry();
                         },
                         authenticate(credentials = {refresh: tokens.refresh}) {
-                            //noinspection JSUnusedAssignment
                             return ongoingAuthentication = get$http().post('/auth/request', credentials,
                                 {
-                                    timeout: new Promise((resolve) => {
+                                    timeout: $q((resolve) => {
                                         authenticateCanceler = resolve;
                                     })
                                 }
@@ -65,7 +63,7 @@ module.provider('auth.tokens',
                                 this.set(data);
                             }).catch((rejection) => {
                                 $log.warn('authentication failed');
-                                return Promise.reject(rejection);
+                                return $q.reject(rejection);
                             }).finally(() => {
                                 ongoingAuthentication = false;
                                 authenticateCanceler = false;
@@ -75,7 +73,6 @@ module.provider('auth.tokens',
                             if (authenticateCanceler) authenticateCanceler();
                             if (tokens) {
                                 if (tokens.hasOwnProperty('refresh')) {
-                                    //noinspection JSUnusedAssignment
                                     get$http().post('/auth/revoke', {refresh: tokens.refresh});
                                 }
                                 tokens = false;
@@ -86,11 +83,11 @@ module.provider('auth.tokens',
                                 return ongoingAuthentication;
                             } else if (!tokens) {
                                 // we don't have tokens - fail
-                                return Promise.reject({status: 401});
+                                return $q.reject({status: 401});
                             } else if (!accessExpiry || accessExpiry.isAfter(moment().add(20, 'minutes'))) {
                                 // access token does not have an expiry or we still have more than 20 minutes before expiry
                                 // -> this is fresh enough
-                                return Promise.resolve();
+                                return $q.resolve();
                             } else {
                                 return this.authenticate();
                             }
