@@ -1,1 +1,12 @@
-<table ng-show="$ctrl.user.isSignedIn"><tr><th>user | json</th></tr><tr><td>{{$ctrl.user | json}}</td></tr></table>
+<table ng-show="$ctrl.user.isSignedIn">
+    <tr>
+        <th>user | json</th>
+    </tr>
+    <tr>
+        <td dir="ltr">{{$ctrl.user | json}}</td>
+    </tr>
+</table>
+<br>
+<div ng-show="$ctrl.user.role === 'admin'">
+    I'm admin
+</div>

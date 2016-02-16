@@ -27,7 +27,7 @@ module.provider('ap.user',
                         isSignedIn: false,
                         register(registrationToken, registration) {
                             return get$http()
-                                .post('/api/users/actions/register',
+                                .post('/api/auth/register',
                                     registration,
                                     {headers: {'x-auth-token': registrationToken}})
                                 .then(({data}) => {

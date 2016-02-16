@@ -136,4 +136,24 @@ auth.get('/et/:et', async (ctx) => {
     ctx.type = 'text/html';
 });
 
+auth.post('/api/auth/register', ensureAuth, bodyParser, async (ctx) => {
+    const user = new User();
+    user.username = ctx.request.body.username;
+    const auth = ctx.state.auth;
+    user[auth.method] = ctx.state.auth[auth.method];
+
+    try {
+        ctx.body = {access: encodeUser(await user.trySave())};
+    } catch(err) {
+        if (err.name === 'ValidationError'
+            &&
+            err.errors.hasOwnProperty('username')
+            &&
+            err.errors.username.kind === 'Duplicate value') {
+            ctx.throw(409);
+        }
+        throw err;
+    }
+});
+
 export default auth;
