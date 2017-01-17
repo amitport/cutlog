@@ -4,7 +4,7 @@
   "description": "",
   "main": "email-sender-with-template-context.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "author": "",
   "license": "ISC",
@@ -12,5 +12,9 @@
     "colors": "^1.1.2",
     "lodash.partial": "^4.2.1",
     "require-dir": "^0.3.1"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0",
+    "sinon": "^1.17.7"
   }
 }
